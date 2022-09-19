@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FolderBrowserEx" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CustomizableAnalysisCodeEditor\CustomizableAnalysisCodeEditor.csproj" />
+    <ProjectReference Include="..\CustomizableAnalysisLibrary\CustomizableAnalysisLibrary.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomizableAnalysisNodes\CustomizableAnalysisNodes.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(SolutionDir)\CustomizableAnalysisLibrary\Nodes&quot; &quot;$(TargetDir)\Nodes&quot; /I /S /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)\CustomizableAnalysisNodes\Nodes&quot; &quot;$(TargetDir)\Nodes&quot; /I /S /Y" />
+  </Target>
+
+</Project>
