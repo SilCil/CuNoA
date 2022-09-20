@@ -25,14 +25,13 @@ public static class Code
         public int IndexX { get; set; } = 0;
         public int IndexY { get; set; } = 1;
         public bool OutputCurve { get; set; } = true;
-
-        public int ParameterCount { get; set; } = 1;
-        public double[] Parameters { get; set; } = { 1.0 };
-
-        public int FunctionCount { get; set; } = 1;
-        public string[] FunctionCodes { get; set; } = new string[] { DefaultCode };
-
         public int MaximumIterations { get; set; } = -1;
+        public int ParameterCount { get; set; } = 1;
+        public int FunctionCount { get; set; } = 1;
+
+        public double[] Parameters { get; set; } = { 1.0 };
+        public double[] ResultingParameters { get; set; } = { 1.0 };
+        public string[] FunctionCodes { get; set; } = new string[] { DefaultCode };
 
         private Dictionary<string, Func<Vector<double>, double, double>> evaluateFunctions = new Dictionary<string, Func<Vector<double>, double, double>>();
 
@@ -41,8 +40,10 @@ public static class Code
             yield return ("xの列番号", new Value(IndexX));
             yield return ("yの列番号", new Value(IndexY));
             yield return ("x, y, f(x)を出力（Noの場合、パラメータを出力）", new Value(OutputCurve));
-
+            yield return ("最大反復数", new Value(MaximumIterations));
             yield return ("パラメータの数", new Value(ParameterCount));
+            yield return ("関数の項数", new Value(FunctionCount));
+
             var oldParameters = Parameters;
             Parameters = new double[ParameterCount];
             if (oldParameters != null) Array.Copy(oldParameters, Parameters, oldParameters.Length);
@@ -51,7 +52,6 @@ public static class Code
                 yield return ($"パラメータa[{i}]", new Value(Parameters[i]));
             }
 
-            yield return ("関数の項数", new Value(FunctionCount));
             var oldCodes = FunctionCodes;
             FunctionCodes = new string[FunctionCount];
             if (oldCodes != null) Array.Copy(oldCodes, FunctionCodes, oldCodes.Length);
@@ -59,8 +59,6 @@ public static class Code
             {
                 yield return ($"項{i + 1}", new Value(FunctionCodes[i]));
             }
-
-            yield return ("最大反復数", new Value(MaximumIterations));
         }
 
         public void SetOptions(params Value[] options)
@@ -68,38 +66,40 @@ public static class Code
             IndexX = options[0].ToIntValue().IntValue;
             IndexY = options[1].ToIntValue().IntValue;
             OutputCurve = options[2].ToBoolValue().BoolValue;
+            MaximumIterations = options[3].ToIntValue().IntValue;
+            ParameterCount = Math.Max(0, options[4].ToIntValue().IntValue);
+            FunctionCount = Math.Max(0, options[5].ToIntValue().IntValue);
 
-            ParameterCount = Math.Max(0, options[3].ToIntValue().IntValue);
             Parameters = new double[ParameterCount];
-            int parameterCount = 0;
             for (int i = 0; i < Parameters.Length; ++i)
             {
-                var option = options[parameterCount + 4];
-                var isDouble = option.ValueType == ValueType.Double;
-                Parameters[i] = (isDouble) ? option.DoubleValue : 0.0;
-
-                if (i == parameterCount && isDouble)
+                var option = options[i + 6];
+                var value = option.ToDoubleValue().DoubleValue;
+                if (double.IsNaN(value))
                 {
-                    ++parameterCount;
+                    Parameters[i] = 1.0;
+                }
+                else
+                {
+                    Parameters[i] = value;
                 }
             }
 
-            FunctionCount = Math.Max(0, options[parameterCount + 4].ToIntValue().IntValue);
             FunctionCodes = new string[FunctionCount];
-            int functionCount = 0;
-            for (int i = 0; i < FunctionCodes.Length; ++i)
+            for(int i = 0; i < FunctionCodes.Length; ++i)
             {
-                var option = options[parameterCount + functionCount + 5];
-                var isString = option.ValueType == ValueType.String;
-                FunctionCodes[i] = (isString) ? option.StringValue : DefaultCode;
+                var optionIndex = options.Length - i - 1;
+                var codeIndex = FunctionCodes.Length - i - 1;
 
-                if (i == functionCount && isString)
+                if (optionIndex < 0)
                 {
-                    ++functionCount;
+                    FunctionCodes[codeIndex] = DefaultCode;
+                }
+                else
+                {
+                    FunctionCodes[codeIndex] = options[optionIndex].ToStringValue().StringValue;
                 }
             }
-
-            MaximumIterations = options[options.Length - 1].ToIntValue().IntValue;
         }
 
         private double EvaluateFunc(Vector<double> p, double x)
@@ -141,7 +141,7 @@ public static class Code
             var solver = new LevenbergMarquardtMinimizer(maximumIterations: MaximumIterations);
 
             var result = solver.FindMinimum(model, initialParameters);
-            Parameters = result.MinimizingPoint.ToArray();
+            ResultingParameters = result.MinimizingPoint.ToArray();
 
             if (OutputCurve)
             {
@@ -163,7 +163,7 @@ public static class Code
             }
             else
             {
-                return Table.CreateFromRows(Parameters.Select(x => new Value(x)));
+                return Table.CreateFromRows(ResultingParameters.Select(x => new Value(x)));
             }
         }
     }

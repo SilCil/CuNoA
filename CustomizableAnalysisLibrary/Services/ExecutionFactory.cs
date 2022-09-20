@@ -18,12 +18,12 @@ namespace CustomizableAnalysisLibrary.Services
         public int JoinType { get; set; }
         public int SuffixType { get; set; }
 
-        private readonly static JsonSerializerOptions options = new JsonSerializerOptions
+        private readonly static JsonSerializerOptions serializerOptions = new JsonSerializerOptions
         {
             WriteIndented = true,
             // HTMLなど、不正を防ぐため+など特定のものはUnicodeRanges.Allではエスケープされてしまう.
             // Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-            // ファイル保存機能として使うだけ（サーバ運用はしない）なのでUnsafeでOK.
+            // ファイル保存機能として使う（ウェブ運用はしない）のでUnsafeでOK.
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
         };
 
@@ -126,12 +126,12 @@ namespace CustomizableAnalysisLibrary.Services
 
         private string Serialize()
         {
-            return JsonSerializer.Serialize(this, options);
+            return JsonSerializer.Serialize(this, serializerOptions);
         }
 
         private static ExecutionFactory Deserialize(string json)
         {
-            return JsonSerializer.Deserialize<ExecutionFactory>(json, options);
+            return JsonSerializer.Deserialize<ExecutionFactory>(json, serializerOptions);
         }
     }
 }
