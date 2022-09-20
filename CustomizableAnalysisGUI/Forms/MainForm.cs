@@ -57,8 +57,10 @@ namespace CustomizableAnalysisGUI
             addCalcNodeButton.Text = "+";
             addCalcNodeButton.TextAlign = ContentAlignment.MiddleCenter;
             addCalcNodeButton.Margin = new Padding(0, 10, 0, 10);
-            addCalcNodeButton.Click += (_, __) => calculationNodeMenu.Show(Cursor.Position);
             addCalcNodeButton.Height = 30;
+            addCalcNodeButton.BackColor = SystemColors.ControlDark;
+            addCalcNodeButton.ForeColor = SystemColors.ControlText;
+            addCalcNodeButton.Click += (_, __) => calculationNodeMenu.Show(Cursor.Position);
 
             outputNodeBlock = new NodeBlock();
             outputNodeBlock.ReplaceClicked += _ => outputNodeMenu.Show(Cursor.Position);

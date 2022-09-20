@@ -43,7 +43,7 @@ namespace CustomizableAnalysisGUI
             // 
             // panelHeader
             // 
-            this.panelHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panelHeader.BackColor = System.Drawing.SystemColors.ControlDark;
             this.panelHeader.Controls.Add(this.flowLayoutPanelButtons);
             this.panelHeader.Controls.Add(this.labelHeader);
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
@@ -74,7 +74,7 @@ namespace CustomizableAnalysisGUI
             // 
             this.buttonReplace.BackColor = System.Drawing.SystemColors.Control;
             this.buttonReplace.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonReplace.ForeColor = System.Drawing.Color.DimGray;
+            this.buttonReplace.ForeColor = System.Drawing.SystemColors.ControlText;
             this.buttonReplace.Location = new System.Drawing.Point(131, 3);
             this.buttonReplace.Name = "buttonReplace";
             this.buttonReplace.Size = new System.Drawing.Size(50, 30);
@@ -88,7 +88,7 @@ namespace CustomizableAnalysisGUI
             // 
             this.buttonRemove.BackColor = System.Drawing.SystemColors.Control;
             this.buttonRemove.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonRemove.ForeColor = System.Drawing.Color.DimGray;
+            this.buttonRemove.ForeColor = System.Drawing.SystemColors.ControlText;
             this.buttonRemove.Location = new System.Drawing.Point(75, 3);
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(50, 30);
@@ -102,7 +102,7 @@ namespace CustomizableAnalysisGUI
             // 
             this.buttonDown.BackColor = System.Drawing.SystemColors.Control;
             this.buttonDown.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonDown.ForeColor = System.Drawing.Color.DimGray;
+            this.buttonDown.ForeColor = System.Drawing.SystemColors.ControlText;
             this.buttonDown.Location = new System.Drawing.Point(39, 3);
             this.buttonDown.Name = "buttonDown";
             this.buttonDown.Size = new System.Drawing.Size(30, 30);
@@ -116,7 +116,7 @@ namespace CustomizableAnalysisGUI
             // 
             this.buttonUp.BackColor = System.Drawing.SystemColors.Control;
             this.buttonUp.Font = new System.Drawing.Font("Yu Gothic UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonUp.ForeColor = System.Drawing.Color.DimGray;
+            this.buttonUp.ForeColor = System.Drawing.SystemColors.ControlText;
             this.buttonUp.Location = new System.Drawing.Point(3, 3);
             this.buttonUp.Name = "buttonUp";
             this.buttonUp.Size = new System.Drawing.Size(30, 30);
@@ -163,7 +163,7 @@ namespace CustomizableAnalysisGUI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackColor = System.Drawing.Color.Gray;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.tableLayoutPanelOptions);
             this.Controls.Add(this.panelHeader);

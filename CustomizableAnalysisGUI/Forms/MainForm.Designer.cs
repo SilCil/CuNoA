@@ -37,6 +37,7 @@ namespace CustomizableAnalysisGUI
             this.saveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deplicateMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.LoadLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CodeEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.layoutPanelContents = new System.Windows.Forms.TableLayoutPanel();
@@ -54,7 +55,6 @@ namespace CustomizableAnalysisGUI
             this.calculationNodeMenu = new CustomizableAnalysisGUI.NodeMenuStrip();
             this.inputNodeMenu = new CustomizableAnalysisGUI.NodeMenuStrip();
             this.outputNodeMenu = new CustomizableAnalysisGUI.NodeMenuStrip();
-            this.LoadLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFormMenuStrip.SuspendLayout();
             this.mainTableLayoutPanel.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -135,6 +135,13 @@ namespace CustomizableAnalysisGUI
             this.LibraryToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.LibraryToolStripMenuItem.Text = "ライブラリ";
             // 
+            // LoadLibraryToolStripMenuItem
+            // 
+            this.LoadLibraryToolStripMenuItem.Name = "LoadLibraryToolStripMenuItem";
+            this.LoadLibraryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.LoadLibraryToolStripMenuItem.Text = "ライブラリ(*.dll)のロード";
+            this.LoadLibraryToolStripMenuItem.Click += new System.EventHandler(this.LoadLibraryToolStripMenuItem_Click);
+            // 
             // CodeEditorToolStripMenuItem
             // 
             this.CodeEditorToolStripMenuItem.Name = "CodeEditorToolStripMenuItem";
@@ -144,13 +151,14 @@ namespace CustomizableAnalysisGUI
             // 
             // mainTableLayoutPanel
             // 
-            this.mainTableLayoutPanel.BackColor = System.Drawing.Color.DimGray;
+            this.mainTableLayoutPanel.BackColor = System.Drawing.Color.Lavender;
             this.mainTableLayoutPanel.ColumnCount = 1;
             this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.mainTableLayoutPanel.Controls.Add(this.layoutPanelContents, 0, 0);
             this.mainTableLayoutPanel.Controls.Add(this.tableLayoutPanel1, 0, 1);
             this.mainTableLayoutPanel.Controls.Add(this.panelBottom, 0, 2);
             this.mainTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainTableLayoutPanel.ForeColor = System.Drawing.SystemColors.ControlText;
             this.mainTableLayoutPanel.Location = new System.Drawing.Point(0, 24);
             this.mainTableLayoutPanel.Name = "mainTableLayoutPanel";
             this.mainTableLayoutPanel.RowCount = 3;
@@ -163,7 +171,7 @@ namespace CustomizableAnalysisGUI
             // layoutPanelContents
             // 
             this.layoutPanelContents.AutoScroll = true;
-            this.layoutPanelContents.BackColor = System.Drawing.Color.DimGray;
+            this.layoutPanelContents.BackColor = System.Drawing.Color.GhostWhite;
             this.layoutPanelContents.ColumnCount = 1;
             this.layoutPanelContents.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.layoutPanelContents.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -214,7 +222,7 @@ namespace CustomizableAnalysisGUI
             // 
             this.buttonOutputPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOutputPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.buttonOutputPath.ForeColor = System.Drawing.Color.DimGray;
+            this.buttonOutputPath.ForeColor = System.Drawing.SystemColors.ControlText;
             this.buttonOutputPath.Location = new System.Drawing.Point(533, 8);
             this.buttonOutputPath.Name = "buttonOutputPath";
             this.buttonOutputPath.Size = new System.Drawing.Size(38, 29);
@@ -230,7 +238,7 @@ namespace CustomizableAnalysisGUI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxOutputPath.BackColor = System.Drawing.SystemColors.Control;
             this.textBoxOutputPath.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBoxOutputPath.ForeColor = System.Drawing.Color.DimGray;
+            this.textBoxOutputPath.ForeColor = System.Drawing.SystemColors.ControlText;
             this.textBoxOutputPath.Location = new System.Drawing.Point(49, 8);
             this.textBoxOutputPath.Name = "textBoxOutputPath";
             this.textBoxOutputPath.Size = new System.Drawing.Size(482, 29);
@@ -250,7 +258,7 @@ namespace CustomizableAnalysisGUI
             // 
             // buttonDetailSetting
             // 
-            this.buttonDetailSetting.ForeColor = System.Drawing.Color.DimGray;
+            this.buttonDetailSetting.ForeColor = System.Drawing.SystemColors.ControlText;
             this.buttonDetailSetting.Location = new System.Drawing.Point(197, 8);
             this.buttonDetailSetting.Name = "buttonDetailSetting";
             this.buttonDetailSetting.Size = new System.Drawing.Size(108, 34);
@@ -263,7 +271,7 @@ namespace CustomizableAnalysisGUI
             // 
             this.buttonExecute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonExecute.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonExecute.ForeColor = System.Drawing.Color.DimGray;
+            this.buttonExecute.ForeColor = System.Drawing.SystemColors.ControlText;
             this.buttonExecute.Location = new System.Drawing.Point(500, 10);
             this.buttonExecute.Margin = new System.Windows.Forms.Padding(10);
             this.buttonExecute.Name = "buttonExecute";
@@ -315,13 +323,6 @@ namespace CustomizableAnalysisGUI
             this.outputNodeMenu.Size = new System.Drawing.Size(61, 4);
             this.outputNodeMenu.MenuItemClicked += new System.Action<string>(this.ReplaceOutputNode);
             // 
-            // LoadLibraryToolStripMenuItem
-            // 
-            this.LoadLibraryToolStripMenuItem.Name = "LoadLibraryToolStripMenuItem";
-            this.LoadLibraryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.LoadLibraryToolStripMenuItem.Text = "ライブラリ(*.dll)のロード";
-            this.LoadLibraryToolStripMenuItem.Click += new System.EventHandler(this.LoadLibraryToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -336,7 +337,7 @@ namespace CustomizableAnalysisGUI
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(600, 300);
             this.Name = "MainForm";
-            this.Text = "Customizable Analysis";
+            this.Text = "CuNoA";
             this.Load += new System.EventHandler(this.mainForm_Load);
             this.mainFormMenuStrip.ResumeLayout(false);
             this.mainFormMenuStrip.PerformLayout();

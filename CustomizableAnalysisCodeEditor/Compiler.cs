@@ -28,6 +28,7 @@ namespace CustomizableAnalysisLibrary.CodeEditor
             typeof(object).Assembly,
             typeof(Enum).Assembly,
             typeof(Enumerable).Assembly,
+            typeof(File).Assembly,
             typeof(ICalculationNode).Assembly,
             typeof(ExtractColumn).Assembly,
             typeof(MathNet.Numerics.LinearAlgebra.Vector<>).Assembly,

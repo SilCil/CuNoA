@@ -1,6 +1,7 @@
 ﻿using CustomizableAnalysisLibrary.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -14,7 +15,24 @@ namespace CustomizableAnalysisGUI
         public MyApplicationContext()
         {
             LoadAssembly();
-            var form = CreateForm();
+
+            Execution execution = null;
+            var args = Environment.GetCommandLineArgs();
+            // args[0] はこのアプリケーションを指す?
+            if(args.Length > 1 && File.Exists(args[1]))
+            {
+                try
+                {
+                    var text = File.ReadAllText(args[1]);
+                    execution = ExecutionFactory.Create(text, loader);
+                }
+                catch (Exception ex)
+                {
+                    Utility.ShowErrorMessage(ex);
+                }
+            }
+
+            var form = CreateForm(execution);
             this.MainForm = form;
             form.Show();
         }

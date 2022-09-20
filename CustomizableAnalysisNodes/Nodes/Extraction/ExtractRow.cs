@@ -45,10 +45,15 @@ namespace CustomizableAnalysisLibrary.Nodes
         public Table Run(Table data)
         {
             var rows = new List<IReadOnlyList<Value>>();
-            foreach(var index in Indices)
+            
+            for(int i = 0; i < data.RowCount; ++i)
             {
-                rows.Add(data.GetRow(index));
+                if (Indices.Contains(i))
+                {
+                    rows.Add(data.GetRow(i));
+                }
             }
+
             return Table.CreateFromRows(rows);
         }
     }
