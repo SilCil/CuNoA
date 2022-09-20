@@ -46,7 +46,21 @@ C#で独自処理を記述できるのでC#慣れてるっていう人には、
 あなたがやりたい処理に一番近そうな既存処理を選んで、
 なんかいい感じに書き換えてくださいね。
 
-### ちょっとした実装の話
+---
+### ここからは実装の話
+---
+
+#### 使用ライブラリ
+
+開発に当たり以下のパッケージを使用させていただきました。
+ありがとうございます。
+
+- [Math.NET Numerics](https://numerics.mathdotnet.com/)
+- [Roslyn](https://github.com/dotnet/roslyn)
+- [RoslynPad](https://github.com/roslynpad/roslynpad)
+- [FolderBrowserEx](https://github.com/evaristocuesta/FolderBrowserEx)
+
+#### コードについて
 
 GUIアプリケーション作るってなった時に、WPFとか最もモダンなフレームワーク使うほうがいいというのはそれはそうなんだけど、
 プログラマでも何でもない人にとってはWinFormsのほうが直観的だと思うんですよ。
