@@ -37,6 +37,7 @@ namespace CustomizableAnalysisGUI
             this.saveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deplicateMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.LoadLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CodeEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.layoutPanelContents = new System.Windows.Forms.TableLayoutPanel();
@@ -54,7 +55,6 @@ namespace CustomizableAnalysisGUI
             this.calculationNodeMenu = new CustomizableAnalysisGUI.NodeMenuStrip();
             this.inputNodeMenu = new CustomizableAnalysisGUI.NodeMenuStrip();
             this.outputNodeMenu = new CustomizableAnalysisGUI.NodeMenuStrip();
-            this.LoadLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFormMenuStrip.SuspendLayout();
             this.mainTableLayoutPanel.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -134,6 +134,13 @@ namespace CustomizableAnalysisGUI
             this.LibraryToolStripMenuItem.Name = "LibraryToolStripMenuItem";
             this.LibraryToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.LibraryToolStripMenuItem.Text = "ライブラリ";
+            // 
+            // LoadLibraryToolStripMenuItem
+            // 
+            this.LoadLibraryToolStripMenuItem.Name = "LoadLibraryToolStripMenuItem";
+            this.LoadLibraryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.LoadLibraryToolStripMenuItem.Text = "ライブラリ(*.dll)のロード";
+            this.LoadLibraryToolStripMenuItem.Click += new System.EventHandler(this.LoadLibraryToolStripMenuItem_Click);
             // 
             // CodeEditorToolStripMenuItem
             // 
@@ -315,13 +322,6 @@ namespace CustomizableAnalysisGUI
             this.outputNodeMenu.Size = new System.Drawing.Size(61, 4);
             this.outputNodeMenu.MenuItemClicked += new System.Action<string>(this.ReplaceOutputNode);
             // 
-            // LoadLibraryToolStripMenuItem
-            // 
-            this.LoadLibraryToolStripMenuItem.Name = "LoadLibraryToolStripMenuItem";
-            this.LoadLibraryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.LoadLibraryToolStripMenuItem.Text = "ライブラリ(*.dll)のロード";
-            this.LoadLibraryToolStripMenuItem.Click += new System.EventHandler(this.LoadLibraryToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -336,7 +336,7 @@ namespace CustomizableAnalysisGUI
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(600, 300);
             this.Name = "MainForm";
-            this.Text = "Customizable Analysis";
+            this.Text = "CuNoA";
             this.Load += new System.EventHandler(this.mainForm_Load);
             this.mainFormMenuStrip.ResumeLayout(false);
             this.mainFormMenuStrip.PerformLayout();
