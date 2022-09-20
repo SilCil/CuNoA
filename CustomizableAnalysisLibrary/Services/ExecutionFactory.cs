@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 using CustomizableAnalysisLibrary.Nodes;
@@ -16,6 +17,15 @@ namespace CustomizableAnalysisLibrary.Services
         public bool IsAddingOutputPath { get; set; }
         public int JoinType { get; set; }
         public int SuffixType { get; set; }
+
+        private readonly static JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            // HTMLなど、不正を防ぐため+など特定のものはUnicodeRanges.Allではエスケープされてしまう.
+            // Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+            // ファイル保存機能として使うだけ（サーバ運用はしない）なのでUnsafeでOK.
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        };
 
         public static Execution Create(string jsonText, NodeLoader loader)
         {
@@ -116,21 +126,11 @@ namespace CustomizableAnalysisLibrary.Services
 
         private string Serialize()
         {
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(UnicodeRanges.All),
-            };
             return JsonSerializer.Serialize(this, options);
         }
 
         private static ExecutionFactory Deserialize(string json)
         {
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(UnicodeRanges.All),
-            };
             return JsonSerializer.Deserialize<ExecutionFactory>(json, options);
         }
     }
