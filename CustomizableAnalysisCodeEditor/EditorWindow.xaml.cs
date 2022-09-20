@@ -24,8 +24,10 @@ namespace CustomizableAnalysisLibrary.CodeEditor
     public partial class EditorWindow : Window
     {
         private static SampleCodeList sampleCodeList = default;
+
         private readonly SaveFileDialog m_saveFileDialog = default;
-        
+        private readonly OpenFileDialog m_openFileDialog = default;
+
         public EditorWindow()
         {
             if (sampleCodeList is null)
@@ -42,8 +44,15 @@ namespace CustomizableAnalysisLibrary.CodeEditor
                 OverwritePrompt = true,
                 ValidateNames = true,
                 AddExtension = true,
-                DefaultExt = "dll",
-                Filter = "Library|*.dll",
+                RestoreDirectory = true
+            };
+
+            m_openFileDialog = new OpenFileDialog 
+            {
+                Title = "ファイルを開く",
+                CheckFileExists = true,
+                DefaultExt = "cs",
+                Filter = "Source file|*.cs",
                 RestoreDirectory = true
             };
 
@@ -57,15 +66,24 @@ namespace CustomizableAnalysisLibrary.CodeEditor
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            m_saveFileDialog.DefaultExt = "dll";
+            m_saveFileDialog.Filter = "Library|*.dll";
+
             if (m_saveFileDialog.ShowDialog() != true) return;
 
             ConsoleTextBox.Text = string.Empty;
             try
             {
-                Compiler.CompileToFile(CodeEditor.Text, m_saveFileDialog.FileName);
+                Compiler.CompileToFile(CodeEditor.Text, m_saveFileDialog.FileName);   
                 ConsoleTextBox.Text = $"Succeeded: {m_saveFileDialog.FileName}";
+
+                var dir = Path.GetDirectoryName(m_saveFileDialog.FileName);
+                var name = Path.GetFileNameWithoutExtension(m_saveFileDialog.FileName);
+                var sourceFilePath = Path.Combine(dir, name + "_AutoSave.cs");
+                File.WriteAllText(sourceFilePath, CodeEditor.Text);
+                ConsoleTextBox.Text += Environment.NewLine + $"Auto save: {sourceFilePath}";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ConsoleTextBox.Text = ex.Message;
             }
@@ -121,6 +139,40 @@ namespace CustomizableAnalysisLibrary.CodeEditor
         private void SampleCodeMenuItem_Click(string path)
         {
             CodeEditor.Text = sampleCodeList.SampleCodes[path];
+        }
+
+        private void OpenSourceFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (m_openFileDialog.ShowDialog() != true) return;
+
+            var path = m_openFileDialog.FileName;
+            try
+            {
+                var text = File.ReadAllText(path);
+                CodeEditor.Text = text;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void SaveSourceFile_Click(object sender, RoutedEventArgs e)
+        {
+            m_saveFileDialog.DefaultExt = "cs";
+            m_saveFileDialog.Filter = "Source file|*.cs";
+
+            if (m_saveFileDialog.ShowDialog() != true) return;
+
+            var path = m_saveFileDialog.FileName;
+            try
+            {
+                File.WriteAllText(path, CodeEditor.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
