@@ -1,7 +1,8 @@
-# CuNoA
-Customizable Node Analysis
+# CuNoA - Customizable Node Analysis
 
 Windowsインストーラーをダウンロード（リンク追加予定）
+
+![Screen Shot](Images/SoftwareScreenshot.png)
 
 ## 研究室での解析用に作成したWindowsソフトウェア
 
