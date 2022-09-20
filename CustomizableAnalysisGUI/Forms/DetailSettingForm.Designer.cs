@@ -42,7 +42,6 @@ namespace CustomizableAnalysisGUI
             // 
             this.comboBoxJoinType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxJoinType.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.comboBoxJoinType.FormattingEnabled = true;
             this.comboBoxJoinType.Location = new System.Drawing.Point(154, 65);
             this.comboBoxJoinType.Name = "comboBoxJoinType";
             this.comboBoxJoinType.Size = new System.Drawing.Size(146, 33);
@@ -84,7 +83,7 @@ namespace CustomizableAnalysisGUI
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.ForeColor = System.Drawing.Color.DimGray;
+            this.buttonOK.ForeColor = System.Drawing.SystemColors.ControlText;
             this.buttonOK.Location = new System.Drawing.Point(380, 169);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(74, 42);
@@ -96,7 +95,6 @@ namespace CustomizableAnalysisGUI
             // 
             this.comboBoxSuffixType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSuffixType.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.comboBoxSuffixType.FormattingEnabled = true;
             this.comboBoxSuffixType.Location = new System.Drawing.Point(154, 108);
             this.comboBoxSuffixType.Name = "comboBoxSuffixType";
             this.comboBoxSuffixType.Size = new System.Drawing.Size(146, 33);
@@ -116,7 +114,7 @@ namespace CustomizableAnalysisGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DimGray;
+            this.BackColor = System.Drawing.Color.Lavender;
             this.ClientSize = new System.Drawing.Size(466, 223);
             this.Controls.Add(this.labelSuffixType);
             this.Controls.Add(this.comboBoxSuffixType);
@@ -126,7 +124,7 @@ namespace CustomizableAnalysisGUI
             this.Controls.Add(this.labelJoinType);
             this.Controls.Add(this.comboBoxJoinType);
             this.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(5);
             this.MaximizeBox = false;

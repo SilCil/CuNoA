@@ -9,7 +9,7 @@ namespace CustomizableAnalysisGUI
 {
     public partial class DetailSettingForm : Form
     {
-        private readonly static Color DisableColor = Color.Gray;
+        private readonly static Color DisableColor = SystemColors.ControlDark;
         private Color defaultColor = default;
 
         private Execution _execution = default;
