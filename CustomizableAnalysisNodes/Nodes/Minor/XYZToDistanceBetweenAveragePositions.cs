@@ -57,20 +57,21 @@ namespace Kato.EvAX
                     var distance = Distance.Euclidean(ri, rj);
 
                     var index = GetIndex(bondLabels, initialDistances, initialDistance, bondLabel);
-                    if (index >= 0)
+
+                    if (index < 0)
                     {
-                        distances[index].Add(distance);
-                        continue;
+                        index = initialDistances.Count(x => x <= initialDistance);
+                        
+                        bondLabels.Insert(index, bondLabel);
+                        initialDistances.Insert(index, initialDistance);
+                        distances.Insert(index, new List<double>());
                     }
 
-                    index = initialDistances.Count(x => x <= initialDistance);
-                    bondLabels.Insert(index, bondLabel);
-                    initialDistances.Insert(index, initialDistance);
-                    distances.Insert(index, new List<double>() { distance });
+                    distances[index].Add(distance);
                 }
             }
 
-            var rows = new List<IEnumerable<Value>>();
+            var rows = new List<Value[]>();
             for (int i = 0; i < bondLabels.Count; ++i)
             {
                 rows.Add(new Value[]

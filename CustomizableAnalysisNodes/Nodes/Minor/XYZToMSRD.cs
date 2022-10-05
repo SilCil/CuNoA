@@ -79,6 +79,7 @@ namespace Kato.EvAX
                     if (index < 0)
                     {
                         insertIndex = initialDistances.Count(x => x <= initialDistance);
+
                         bondLabels.Insert(insertIndex, bondLabel);
                         initialDistances.Insert(insertIndex, initialDistance);
                     }
@@ -90,7 +91,7 @@ namespace Kato.EvAX
                 }
             }
 
-            var rows = new List<IEnumerable<Value>>();
+            var rows = new List<Value[]>();
             for (int i = 0; i < bondLabels.Count; ++i)
             {
                 rows.Add(new Value[]

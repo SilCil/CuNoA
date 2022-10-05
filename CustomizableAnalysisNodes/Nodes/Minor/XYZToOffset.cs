@@ -16,7 +16,7 @@ namespace Kato.EvAX
             var displacementsFromInitial = CalcDisplacements(finalLabels, initialRealPositions, finalRealPositions);
             var averageDisplacements = CalcAverageDisplacements(displacementsFromInitial);
 
-            var rows = new List<IEnumerable<Value>>();
+            var rows = new List<Value[]>();
             foreach(var label in finalLabels.Distinct())
             {
                 var index = finalLabels.IndexOf(label);
