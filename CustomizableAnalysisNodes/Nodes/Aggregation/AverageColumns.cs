@@ -58,7 +58,7 @@ namespace CustomizableAnalysisLibrary.Nodes
                     targetColumns.Add(column.ToDoubleArray());
                     if (insertIndex < 0)
                     {
-                        insertIndex = i;
+                        insertIndex = outputColumns.Count;
                     }
                 }
                 else
