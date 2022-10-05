@@ -20,7 +20,7 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public Table Run(Table data)
         {
-            var sum = data.GetColumn(Index).Sum(x => x.ToDoubleValue().DoubleValue);
+            var sum = data.GetColumn(Index).ToDoubleArray().Sum();
             return Table.CreateFromSingleElement(new Value(sum));
         }
     }

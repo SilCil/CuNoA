@@ -20,7 +20,7 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public Table Run(Table data)
         {
-            var min = data.GetColumn(Index).Min(x => x.ToDoubleValue().DoubleValue);
+            var min = data.GetColumn(Index).ToDoubleArray().Min();
             return Table.CreateFromSingleElement(new Value(min));
         }
     }

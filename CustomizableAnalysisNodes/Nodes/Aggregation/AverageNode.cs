@@ -20,7 +20,7 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public Table Run(Table data)
         {
-            var average = data.GetColumn(Index).Average(x => x.ToDoubleValue().DoubleValue);
+            var average = data.GetColumn(Index).ToDoubleArray().Average();
             return Table.CreateFromSingleElement(new Value(average));
         }
     }

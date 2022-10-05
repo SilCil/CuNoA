@@ -20,7 +20,7 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public Table Run(Table data)
         {
-            var max = data.GetColumn(Index).Max(x => x.ToDoubleValue().DoubleValue);
+            var max = data.GetColumn(Index).ToDoubleArray().Max();
             return Table.CreateFromSingleElement(new Value(max));
         }
     }
