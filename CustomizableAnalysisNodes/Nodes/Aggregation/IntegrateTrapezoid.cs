@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/積分（台形積分）")]
+    [Node("集計/列/積分（台形積分）")]
     public class IntegrateTrapezoid : ICalculationNode, IOptionNode
     {
         public int IndexX { get; set; } = 0;

@@ -2,7 +2,7 @@
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/データ数")]
+    [Node("集計/列/データ数")]
     public class CountNode : ICalculationNode, IOptionNode
     {
         public int Index { get; set; } = 0;

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/平均")]
+    [Node("集計/列/平均")]
     public class AverageNode : ICalculationNode, IOptionNode
     {
         public int Index { get; set; } = 0;

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/合計")]
+    [Node("集計/列/合計")]
     public class SumNode : ICalculationNode, IOptionNode
     {
         public int Index { get; set; } = 0;

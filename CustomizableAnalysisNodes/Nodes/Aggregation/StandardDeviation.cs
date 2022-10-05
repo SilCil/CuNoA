@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/標準偏差")]
+    [Node("集計/列/標準偏差")]
     public class StandardDeviation : ICalculationNode, IOptionNode
     {
         public int Index { get; set; } = 0;

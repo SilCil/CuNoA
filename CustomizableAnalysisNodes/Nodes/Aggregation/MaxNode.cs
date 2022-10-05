@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/最大")]
+    [Node("集計/列/最大")]
     public class MaxNode : ICalculationNode, IOptionNode
     {
         public int Index { get; set; } = 0;

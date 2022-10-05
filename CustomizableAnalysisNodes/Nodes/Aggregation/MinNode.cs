@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/最小")]
+    [Node("集計/列/最小")]
     public class MinNode : ICalculationNode, IOptionNode
     {
         public int Index { get; set; } = 0;
