@@ -20,7 +20,7 @@ namespace Kato.EvAX
             yield return ("吸収原子", new Value(Absorber));
             yield return ("最小距離", new Value(MinDistance));
             yield return ("最大距離", new Value(MaxDistance));
-            yield return ("距離の誤差", new Value(DistanceEpsilon));
+            yield return ("Group閾値", new Value(DistanceEpsilon));
         }
 
         public void SetOptions(params Value[] options)
@@ -46,6 +46,7 @@ namespace Kato.EvAX
                 for (int j = 0; j < finalAllPositions.Count; ++j)
                 {
                     var initialDistance = Distance.Euclidean(initialAllPositions[i], initialAllPositions[j]);
+
                     if (initialDistance < MinDistance) continue;
                     if (initialDistance > MaxDistance) continue;
 
@@ -53,20 +54,21 @@ namespace Kato.EvAX
                     var distance = Distance.Euclidean(finalAllPositions[i], finalAllPositions[j]);
 
                     var index = GetIndex(bondLabels, initialDistances, initialDistance, bondLabel);
-                    if (index >= 0)
+                    
+                    if (index < 0)
                     {
-                        distances[index].Add(distance);
-                        continue;
+                        index = initialDistances.Count(x => x <= initialDistance);
+
+                        bondLabels.Insert(index, bondLabel);
+                        initialDistances.Insert(index, initialDistance);
+                        distances.Insert(index, new List<double>());
                     }
 
-                    index = initialDistances.Count(x => x <= initialDistance);
-                    bondLabels.Insert(index, bondLabel);
-                    initialDistances.Insert(index, initialDistance);
-                    distances.Insert(index, new List<double>() { distance });
+                    distances[index].Add(distance);
                 }
             }
 
-            var rows = new List<IEnumerable<Value>>();
+            var rows = new List<Value[]>();
             for (int i = 0; i < bondLabels.Count; ++i)
             {
                 rows.Add(new Value[]
