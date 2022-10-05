@@ -99,10 +99,21 @@ namespace Kato.EvAX
             {
                 columns.Add(rValues.ToValueArray().Prepend(new Value("#r")));
             }
-            
+            else
+            {
+                columns.Add(rValues.ToValueArray());
+            }
+
             for(int i = 0; i < bondLabels.Count; ++i)
             {
-                columns.Add(rdfValues[i].ToValueArray().Prepend(new Value(bondLabels[i])));
+                IEnumerable<Value> column = rdfValues[i].ToValueArray();
+
+                if (OutputBondLabel)
+                {
+                    column = column.Prepend(new Value(bondLabels[i]));
+                }
+
+                columns.Add(column);
             }
 
             return Table.CreateFromColumns(columns);
