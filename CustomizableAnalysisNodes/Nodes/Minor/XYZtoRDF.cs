@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using CustomizableAnalysisLibrary;
 using MathNet.Numerics;
+using CustomizableAnalysisLibrary;
 
 namespace Kato.EvAX
 {
@@ -15,6 +14,7 @@ namespace Kato.EvAX
         public double MaxDistance { get; set; } = 8.0;
         public double DeltaR { get; set; } = 0.01;
         public double DistanceEpsilon { get; set; } = 0.001;
+        public bool OutputBondLabel { get; set; } = true;
 
         public IEnumerable<(string label, Value)> GetOptions()
         {
@@ -23,6 +23,7 @@ namespace Kato.EvAX
             yield return ("最大距離", new Value(MaxDistance));
             yield return ("bin幅", new Value(DeltaR));
             yield return ("Group閾値", new Value(DistanceEpsilon));
+            yield return ("ラベルを出力", new Value(OutputBondLabel));
         }
 
         public void SetOptions(params Value[] options)
@@ -32,6 +33,7 @@ namespace Kato.EvAX
             MaxDistance = options[2].ToDoubleValue().DoubleValue;
             DeltaR = options[3].ToDoubleValue().DoubleValue;
             DistanceEpsilon = options[4].ToDoubleValue().DoubleValue;
+            OutputBondLabel = options[5].ToBoolValue().BoolValue;
         }
 
         public Table Run(Table data)
@@ -92,7 +94,12 @@ namespace Kato.EvAX
             }
 
             var columns = new List<IEnumerable<Value>>();
-            columns.Add(rValues.ToValueArray().Prepend(new Value("#r")));
+
+            if (OutputBondLabel)
+            {
+                columns.Add(rValues.ToValueArray().Prepend(new Value("#r")));
+            }
+            
             for(int i = 0; i < bondLabels.Count; ++i)
             {
                 columns.Add(rdfValues[i].ToValueArray().Prepend(new Value(bondLabels[i])));
