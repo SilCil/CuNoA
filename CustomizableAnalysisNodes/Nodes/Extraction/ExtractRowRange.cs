@@ -26,12 +26,18 @@ namespace CustomizableAnalysisLibrary.Nodes
         public Table Run(Table data)
         {
             var rows = new List<IReadOnlyList<Value>>();
+
             for(int i = 0; i < data.RowCount; ++i)
             {
                 var row = data.GetRow(i);
                 var value = row[Index].ToDoubleValue().DoubleValue;
-                if (MinValue <= value && value <= MaxValue) rows.Add(row);
+
+                if (MinValue <= value && value <= MaxValue)
+                {
+                    rows.Add(row);
+                }
             }
+
             return Table.CreateFromRows(rows);
         }
     }

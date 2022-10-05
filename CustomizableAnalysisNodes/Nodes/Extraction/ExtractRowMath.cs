@@ -33,7 +33,7 @@ public static class Code
         public Table Run(Table data)
         {
             var source = CodeTemplate.Replace("$Code", Code);
-            var assembly = Utility.LoadFromSource(key: $"{nameof(CustomizableAnalysisLibrary.Nodes)}:{nameof(ExtractRowMath)}:{Code}", source);
+            var assembly = Utility.LoadFromSource(key: $"{nameof(Nodes)}:{nameof(ExtractRowMath)}:{Code}", source);
             var codeType = assembly.GetType("Code");
             var evaluateInfo = codeType.GetMethod("Evaluate");
             var evaluate = (Func<double, bool>)Delegate.CreateDelegate(typeof(Func<double, bool>), evaluateInfo);
@@ -48,6 +48,7 @@ public static class Code
                     rows.Add(row);
                 }
             }
+
             return Table.CreateFromRows(rows);
         }
     }

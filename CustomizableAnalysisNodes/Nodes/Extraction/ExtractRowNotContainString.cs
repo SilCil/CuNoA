@@ -23,10 +23,13 @@ namespace CustomizableAnalysisLibrary.Nodes
         public Table Run(Table data)
         {
             var rows = new List<IEnumerable<Value>>();
+
             for (int i = 0; i < data.RowCount; ++i)
             {
                 var row = data.GetRow(i);
-                if (row[Index].ToStringValue().StringValue.Contains(Search) == false)
+                var word = row[Index].ToStringValue().StringValue;
+
+                if (word.Contains(Search) == false)
                 {
                     rows.Add(row);
                 }

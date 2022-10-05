@@ -21,14 +21,19 @@ namespace CustomizableAnalysisLibrary.Nodes
         {
             IReadOnlyList<Value> minRow = default;
             double minValue = double.MaxValue;
+
             for(int i = 0; i < data.RowCount; ++i)
             {
                 var row = data.GetRow(i);
                 var value = row[Index].ToDoubleValue().DoubleValue;
-                if (value >= minValue) continue;
-                minValue = value;
-                minRow = row;
+
+                if (value < minValue)
+                {
+                    minValue = value;
+                    minRow = row;
+                }
             }
+            
             return Table.CreateFromRows(minRow);
         }
     }
