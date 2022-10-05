@@ -2,7 +2,7 @@
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("抽出/列/指定した列番号まで取り出し")]
+    [Node("抽出/列/指定した番号まで取り出し")]
     public class ExtractColumnUntil : IOptionNode, ICalculationNode
     {
         public int Index { get; set; } = 0;
