@@ -13,7 +13,7 @@ namespace Kato.EvAX
     {
         public string[] Atoms { get; set; } = new string[] { "Ba", "Ti", "Ba" };
         public double MinDistance { get; set; } = 0.1;
-        public double MaxDistance { get; set; } = 10.0;
+        public double MaxDistance { get; set; } = 6.0;
         public double DistanceEpsilon { get; set; } = 0.001;
         public double AngleDegEpsilon { get; set; } = 0.1;
 
@@ -61,7 +61,6 @@ namespace Kato.EvAX
 
                     var initialDistance12 = Distance.Euclidean(initialAllPositions[i], initialAllPositions[j]);
 
-                    if (initialDistance12 < MinDistance * 2) continue;
                     if (initialDistance12 > MaxDistance * 2) continue;
 
                     for(int k = 0; k < finalAllPositions.Count; ++k)
