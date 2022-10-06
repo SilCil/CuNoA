@@ -4,8 +4,8 @@ using System.Linq;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/複数列を1列に/平均")]
-    public class AverageColumns : ICalculationNode, IOptionNode
+    [Node("集計/複数列を1列に/合計")]
+    public class SumColumns : ICalculationNode, IOptionNode
     {
         public bool IsRemoveColumns { get; set; } = true;
         public int[] Indices { get; set; } = new int[] { 0, 1 };
@@ -48,18 +48,18 @@ namespace CustomizableAnalysisLibrary.Nodes
         {
             var outputColumns = new List<IReadOnlyList<Value>>();
             var targetColumns = new List<double[]>();
-            
-            for(int i = 0; i < data.ColumnCount; ++i)
+
+            for (int i = 0; i < data.ColumnCount; ++i)
             {
                 var column = data.GetColumn(i);
 
-                if(Indices.Contains(i))
+                if (Indices.Contains(i))
                 {
                     if (IsRemoveColumns == false)
                     {
                         outputColumns.Add(column);
                     }
-                    
+
                     targetColumns.Add(column.ToDoubleArray());
                 }
                 else
@@ -70,21 +70,21 @@ namespace CustomizableAnalysisLibrary.Nodes
 
             if (targetColumns.Count != 0)
             {
-                var averages = new double[targetColumns[0].Length];
-                
-                for(int row = 0; row < averages.Length; ++row)
-                {
-                    averages[row] = 0.0;
+                var sumValues = new double[targetColumns[0].Length];
 
-                    for(int column = 0; column < targetColumns.Count; ++column)
+                for (int row = 0; row < sumValues.Length; ++row)
+                {
+                    sumValues[row] = 0.0;
+
+                    for (int column = 0; column < targetColumns.Count; ++column)
                     {
-                        averages[row] += targetColumns[column][row];
+                        sumValues[row] += targetColumns[column][row];
                     }
 
-                    averages[row] /= targetColumns.Count;
+                    sumValues[row] /= targetColumns.Count;
                 }
 
-                outputColumns.Add(averages.ToValueArray());
+                outputColumns.Add(sumValues.ToValueArray());
             }
 
             return Table.CreateFromColumns(outputColumns);

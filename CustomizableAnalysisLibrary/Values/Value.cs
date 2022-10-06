@@ -76,7 +76,7 @@ namespace CustomizableAnalysisLibrary
             return ValueType switch
             {
                 ValueType.Int => IntValue.ToString(),
-                ValueType.String => StringValue.ToString(),
+                ValueType.String => StringValue,
                 ValueType.Double => DoubleValue.ToString(),
                 ValueType.Bool => BoolValue.ToString(),
                 _ => throw new NotImplementedException(),
@@ -98,6 +98,7 @@ namespace CustomizableAnalysisLibrary
             };
         }
         public Value ToIntValue() => ToIntValue(this);
+        public int ToInt() => ToIntValue(this).IntValue;
 
         public static Value ToDoubleValue(Value element)
         {
@@ -111,6 +112,7 @@ namespace CustomizableAnalysisLibrary
             };
         }
         public Value ToDoubleValue() => ToDoubleValue(this);
+        public double ToDouble() => ToDoubleValue(this).DoubleValue;
 
         public static Value ToBoolValue(Value element)
         {
@@ -125,5 +127,6 @@ namespace CustomizableAnalysisLibrary
             };
         }
         public Value ToBoolValue() => ToBoolValue(this);
+        public bool ToBool() => ToBoolValue(this).BoolValue;
     }
 }
