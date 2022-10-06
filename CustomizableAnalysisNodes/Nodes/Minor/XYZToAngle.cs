@@ -50,27 +50,43 @@ namespace Kato.EvAX
             var initialAngles = new List<double>();
             var angles = new List<List<double>>();
 
-            for (int i = 0; i < finalRealPositions.Count; ++i)
-            {
-                if (finalLabels[i] != Atoms[0]) continue;
+            // Atom1 (Real) -> Atom2 (All) -> Atom3 (All)で全探索するとめっちゃ時間かかる.
+            // ループカウント: RealCount*AllCount*AllCount = 3^6*RealCount^3
+            // Atom2からスタートして検索量を減らす.
 
-                for (int j = 0; j < finalAllPositions.Count; ++j)
+            // Atom2から一定距離内にあるものだけ扱うためのリスト.
+            // (index, initialDistance)
+            var targetAtoms = new List<(int, double)>();
+
+            for (int j = 0; j < initialRealPositions.Count; ++j)
+            {
+                if (finalLabels[j] != Atoms[1]) continue;
+
+                // ループカウント: RealCount*AllCount = 3^3*RealCount^2.
+                // MaxDistanceが現実的な値なら要素数は100以下になるはず.
+                // その場合、ループ全体として 3^3*RealCount^2 + RealCount*100*100.
+                targetAtoms.Clear();
+                for(int i = 0; i < initialAllPositions.Count; ++i)
                 {
                     if (i == j) continue;
-                    if (finalLabels[j] != Atoms[1]) continue;
+                    if (finalLabels[i] != Atoms[0] && finalLabels[i] != Atoms[2]) continue;
 
-                    var initialDistance12 = Distance.Euclidean(initialAllPositions[i], initialAllPositions[j]);
+                    var initialDistance = Distance.Euclidean(initialAllPositions[i], initialAllPositions[j]);
+                    if (initialDistance > MaxDistance * 2) continue;
 
-                    if (initialDistance12 > MaxDistance * 2) continue;
+                    targetAtoms.Add((i, initialDistance));
+                }
 
-                    for(int k = 0; k < finalAllPositions.Count; ++k)
+                foreach ((var i, var initialDistance12) in targetAtoms)
+                {
+                    if (finalLabels[i] != Atoms[0]) continue;
+
+                    foreach ((var k, var initialDistance23) in targetAtoms)
                     {
                         if (i == k) continue;
-                        if (j == k) continue;
                         if (finalLabels[k] != Atoms[2]) continue;
 
-                        var initialDistance23 = Distance.Euclidean(initialAllPositions[j], initialAllPositions[k]);
-                        var initialDistance31 = Distance.Euclidean(initialAllPositions[k], initialAllPositions[i]);
+                        var initialDistance31 = Distance.Euclidean(initialAllPositions[i], initialAllPositions[k]);
                         var initialDistance = (initialDistance12 + initialDistance23 + initialDistance31) / 2.0;
 
                         if (initialDistance < MinDistance) continue;
@@ -84,7 +100,7 @@ namespace Kato.EvAX
                         if (index < 0)
                         {
                             index = initialDistances.Count(x => x <= initialDistance);
-                            
+
                             initialDistances.Insert(index, initialDistance);
                             initialAngles.Insert(index, initialAngle);
                             angles.Insert(index, new List<double>());
