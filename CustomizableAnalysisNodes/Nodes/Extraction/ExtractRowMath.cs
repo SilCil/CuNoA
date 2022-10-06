@@ -26,8 +26,8 @@ public static class Code
 
         public void SetOptions(params Value[] options)
         {
-            IndexX = options[0].ToIntValue().IntValue;
-            Code = options[1].ToStringValue().StringValue;
+            IndexX = options[0].ToInt();
+            Code = options[1].ToString();
         }
 
         public Table Run(Table data)
@@ -42,7 +42,7 @@ public static class Code
             for (int i = 0; i < data.RowCount; ++i)
             {
                 var row = data.GetRow(i);
-                var x = row[IndexX].ToDoubleValue().DoubleValue;
+                var x = row[IndexX].ToDouble();
                 if (evaluate.Invoke(x))
                 {
                     rows.Add(row);

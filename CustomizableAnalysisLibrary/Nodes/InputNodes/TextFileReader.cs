@@ -23,8 +23,8 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            separators = options[0].ToStringValue().StringValue.ToCharArray();
-            commentSymbol = options[1].ToStringValue().StringValue;
+            separators = options[0].ToString().ToCharArray();
+            commentSymbol = options[1].ToString();
         }
 
         public Table Load(string path)

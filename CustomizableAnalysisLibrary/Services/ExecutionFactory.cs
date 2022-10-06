@@ -93,7 +93,7 @@ namespace CustomizableAnalysisLibrary.Services
             {
                 if(node is IOptionNode optionNode)
                 {
-                    options.Add(optionNode.GetOptions().Select(x => x.Item2.ToStringValue().StringValue));
+                    options.Add(optionNode.GetOptions().Select(x => x.Item2.ToString()));
                 }
             }
 

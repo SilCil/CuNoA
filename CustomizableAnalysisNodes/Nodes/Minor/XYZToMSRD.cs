@@ -19,15 +19,15 @@ namespace Kato.EvAX
             yield return ("吸収原子", new Value(Absorber));
             yield return ("最小距離", new Value(MinDistance));
             yield return ("最大距離", new Value(MaxDistance));
-            yield return ("距離の誤差", new Value(DistanceEpsilon));
+            yield return ("Group閾値", new Value(DistanceEpsilon));
         }
 
         public void SetOptions(params Value[] options)
         {
-            Absorber = options[0].ToStringValue().StringValue;
-            MinDistance = options[1].ToDoubleValue().DoubleValue;
-            MaxDistance = options[2].ToDoubleValue().DoubleValue;
-            DistanceEpsilon = options[3].ToDoubleValue().DoubleValue;
+            Absorber = options[0].ToString();
+            MinDistance = options[1].ToDouble();
+            MaxDistance = options[2].ToDouble();
+            DistanceEpsilon = options[3].ToDouble();
         }
 
         public Table Run(Table data)

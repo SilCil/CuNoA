@@ -28,12 +28,12 @@ namespace Kato.EvAX
 
         public void SetOptions(params Value[] options)
         {
-            Absorber = options[0].ToStringValue().StringValue;
-            MinDistance = options[1].ToDoubleValue().DoubleValue;
-            MaxDistance = options[2].ToDoubleValue().DoubleValue;
-            DeltaR = options[3].ToDoubleValue().DoubleValue;
-            DistanceEpsilon = options[4].ToDoubleValue().DoubleValue;
-            OutputBondLabel = options[5].ToBoolValue().BoolValue;
+            Absorber = options[0].ToString();
+            MinDistance = options[1].ToDouble();
+            MaxDistance = options[2].ToDouble();
+            DeltaR = options[3].ToDouble();
+            DistanceEpsilon = options[4].ToDouble();
+            OutputBondLabel = options[5].ToBool();
         }
 
         public Table Run(Table data)

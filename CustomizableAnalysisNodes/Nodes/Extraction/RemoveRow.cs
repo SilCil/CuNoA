@@ -39,7 +39,7 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         private int GetValue(Value value)
         {
-            var v = value.ToIntValue().IntValue;
+            var v = value.ToInt();
             return (v < 0) ? 0 : v;
         }
 

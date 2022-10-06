@@ -26,17 +26,17 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            IndexX = options[0].ToIntValue().IntValue;
-            IndexY = options[1].ToIntValue().IntValue;
-            StartX = options[2].ToDoubleValue().DoubleValue;
-            EndX = options[3].ToDoubleValue().DoubleValue;
-            StepX = options[4].ToDoubleValue().DoubleValue;
+            IndexX = options[0].ToInt();
+            IndexY = options[1].ToInt();
+            StartX = options[2].ToDouble();
+            EndX = options[3].ToDouble();
+            StepX = options[4].ToDouble();
         }
 
         public Table Run(Table data)
         {
-            var dataX = data.GetColumn(IndexX).Select(x => x.ToDoubleValue().DoubleValue).ToArray();
-            var dataY = data.GetColumn(IndexY).Select(x => x.ToDoubleValue().DoubleValue).ToArray();
+            var dataX = data.GetColumn(IndexX).ToDoubleArray();
+            var dataY = data.GetColumn(IndexY).ToDoubleArray();
 
             var originalDataX = new double[dataX.Length];
             Array.Copy(dataX, originalDataX, dataX.Length);

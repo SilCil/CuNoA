@@ -15,7 +15,7 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            Index = options[0].ToIntValue().IntValue;
+            Index = options[0].ToInt();
         }
 
         public Table Run(Table data)
@@ -25,7 +25,7 @@ namespace CustomizableAnalysisLibrary.Nodes
             {
                 if(i == Index)
                 {
-                    var values = data.GetColumn(i).Select(x => x.ToDoubleValue().DoubleValue).ToArray();
+                    var values = data.GetColumn(i).ToDoubleArray();
                     var min = values.Max();
                     columns.Add(values.Select(x => new Value(x / min)));
                 }

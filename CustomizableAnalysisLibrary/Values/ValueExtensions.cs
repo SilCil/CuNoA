@@ -7,20 +7,25 @@ namespace CustomizableAnalysisLibrary
     {
         public static double[] ToDoubleArray(this IEnumerable<Value> values)
         {
-            return values.Select(x => x.ToDoubleValue().DoubleValue).ToArray();
+            return values.Select(x => x.ToDouble()).ToArray();
         }
 
         public static int[] ToIntArray(this IEnumerable<Value> values)
         {
-            return values.Select(x => x.ToIntValue().IntValue).ToArray();
+            return values.Select(x => x.ToInt()).ToArray();
         }
 
         public static string[] ToStringArray(this IEnumerable<Value> values)
         {
-            return values.Select(x => x.ToStringValue().StringValue).ToArray();
+            return values.Select(x => x.ToString()).ToArray();
         }
 
         public static Value[] ToValueArray(this IEnumerable<double> values)
+        {
+            return values.Select(x => new Value(x)).ToArray();
+        }
+
+        public static Value[] ToValueArray(this IEnumerable<string> values)
         {
             return values.Select(x => new Value(x)).ToArray();
         }

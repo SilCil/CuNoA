@@ -22,9 +22,9 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            separator = options[0].ToStringValue().StringValue;
-            commentSymbol = options[1].ToStringValue().StringValue;
-            header = options[2].ToStringValue().StringValue;
+            separator = options[0].ToString();
+            commentSymbol = options[1].ToString();
+            header = options[2].ToString();
         }
 
         public void SetComments(params string[] comments) => this.comments = comments;

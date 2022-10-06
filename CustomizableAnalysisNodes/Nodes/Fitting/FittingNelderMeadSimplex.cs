@@ -56,11 +56,11 @@ public static class Code
 
         public void SetOptions(params Value[] options)
         {
-            IndexX = options[0].ToIntValue().IntValue;
-            IndexY = options[1].ToIntValue().IntValue;
-            OutputCurve = options[2].ToBoolValue().BoolValue;
+            IndexX = options[0].ToInt();
+            IndexY = options[1].ToInt();
+            OutputCurve = options[2].ToBool();
 
-            ParameterCount = Math.Max(0, options[3].ToIntValue().IntValue);
+            ParameterCount = Math.Max(0, options[3].ToInt());
             Parameters = new double[ParameterCount];
             int parameterCount = 0;
             for (int i = 0; i < Parameters.Length; ++i)
@@ -75,12 +75,12 @@ public static class Code
                 }
             }
 
-            FunctionCode = options[options.Length - 3].ToStringValue().StringValue;
-            MaximumIterations = options[options.Length - 2].ToIntValue().IntValue;
-            AllowNotConverged = options[options.Length - 1].ToBoolValue().BoolValue;
+            FunctionCode = options[options.Length - 3].ToString();
+            MaximumIterations = options[options.Length - 2].ToInt();
+            AllowNotConverged = options[options.Length - 1].ToBool();
         }
 
-        private string GenerateKey() => $"{nameof(CustomizableAnalysisLibrary.Nodes)}{nameof(FittingNelderMeadSimplex)}:{FunctionCode}";
+        private string GenerateKey() => $"{nameof(Nodes)}{nameof(FittingNelderMeadSimplex)}:{FunctionCode}";
 
         private double EvaluateFunc(double x, IReadOnlyList<double> parameters)
         {
@@ -114,8 +114,8 @@ public static class Code
 
         public Table Run(Table data)
         {
-            var dataX = data.GetColumn(IndexX).Select(x => x.ToDoubleValue().DoubleValue).ToArray();
-            var dataY = data.GetColumn(IndexY).Select(y => y.ToDoubleValue().DoubleValue).ToArray();
+            var dataX = data.GetColumn(IndexX).ToDoubleArray();
+            var dataY = data.GetColumn(IndexY).ToDoubleArray();
 
             var func = (Func<Vector<double>, double>)(x => SumSquared(x, dataX, dataY));
             var objFunc = ObjectiveFunction.Value(func);

@@ -16,8 +16,8 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            Index = options[0].ToIntValue().IntValue;
-            Search = options[1].ToStringValue().StringValue;
+            Index = options[0].ToInt();
+            Search = options[1].ToString();
         }
 
         public Table Run(Table data)
@@ -27,7 +27,7 @@ namespace CustomizableAnalysisLibrary.Nodes
             for (int i = 0; i < data.RowCount; ++i)
             {
                 var row = data.GetRow(i);
-                var word = row[Index].ToStringValue().StringValue;
+                var word = row[Index].ToString();
 
                 if (word.Contains(Search) == false)
                 {

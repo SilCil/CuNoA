@@ -83,9 +83,6 @@ namespace CustomizableAnalysisLibrary
             };
         }
 
-        public static Value ToStringValue(Value element) => new Value(element.ToString());
-        public Value ToStringValue() => ToStringValue(this);
-
         public static Value ToIntValue(Value element)
         {
             return element.ValueType switch
