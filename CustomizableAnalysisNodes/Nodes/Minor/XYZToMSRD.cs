@@ -13,6 +13,7 @@ namespace Kato.EvAX
         public double MinDistance { get; set; } = 0.1;
         public double MaxDistance { get; set; } = 4.2;
         public double DistanceEpsilon { get; set; } = 0.001;
+        public bool GroupBySite { get; set; } = true;
 
         public IEnumerable<(string label, Value)> GetOptions()
         {
@@ -20,6 +21,7 @@ namespace Kato.EvAX
             yield return ("最小距離", new Value(MinDistance));
             yield return ("最大距離", new Value(MaxDistance));
             yield return ("Group閾値", new Value(DistanceEpsilon));
+            yield return ("Siteを区別する", new Value(GroupBySite));
         }
 
         public void SetOptions(params Value[] options)
@@ -28,6 +30,7 @@ namespace Kato.EvAX
             MinDistance = options[1].ToDouble();
             MaxDistance = options[2].ToDouble();
             DistanceEpsilon = options[3].ToDouble();
+            GroupBySite = options[4].ToBool();
         }
 
         public Table Run(Table data)
@@ -63,7 +66,7 @@ namespace Kato.EvAX
                     var r0_j = initialAllPositions[j] + averageDisplacementsFromInitial[label_j];
                     var u_j = finalAllPositions[j] - r0_j;
 
-                    var bondLabel = $"{label_i}-{label_j}";
+                    var bondLabel = GetBondLabel(label_i, label_j);
 
                     var r0 = r0_j - r0_i;
                     var r0_direction = r0 / r0.L2Norm();
@@ -104,6 +107,23 @@ namespace Kato.EvAX
                 });
             }
             return Table.CreateFromRows(rows);
+        }
+
+        private string GetBondLabel(string label1, string label2)
+        {
+            if (GroupBySite)
+            {
+                return string.Join("-", label1, label2);
+            }
+            else
+            {
+                return string.Join("-", RemoveNumber(label1), RemoveNumber(label2));
+            }
+        }
+
+        private string RemoveNumber(string str)
+        {
+            return new string(str.Where(x => char.IsDigit(x) == false).ToArray());
         }
 
         private int GetIndex(List<string> labels, List<double> initialDistances, double initialDistance, string label)
