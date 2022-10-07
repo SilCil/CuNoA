@@ -1,7 +1,5 @@
-﻿using System;
+﻿using System.Linq;
 using System.Collections.Generic;
-using System.Linq;
-using MathNet.Numerics;
 using CustomizableAnalysisLibrary;
 
 namespace Kato.EvAX
@@ -14,7 +12,9 @@ namespace Kato.EvAX
         public double MaxDistance { get; set; } = 8.0;
         public double DeltaR { get; set; } = 0.01;
         public double DistanceEpsilon { get; set; } = 0.001;
-        public bool OutputBondLabel { get; set; } = true;
+        public bool GroupBySite { get; set; } = true;
+
+        private XYZToDistance m_distanceCalculator = new XYZToDistance();
 
         public IEnumerable<(string label, Value)> GetOptions()
         {
@@ -23,7 +23,7 @@ namespace Kato.EvAX
             yield return ("最大距離", new Value(MaxDistance));
             yield return ("bin幅", new Value(DeltaR));
             yield return ("Group閾値", new Value(DistanceEpsilon));
-            yield return ("ラベルを出力", new Value(OutputBondLabel));
+            yield return ("Siteを区別する", new Value(GroupBySite));
         }
 
         public void SetOptions(params Value[] options)
@@ -33,7 +33,13 @@ namespace Kato.EvAX
             MaxDistance = options[2].ToDouble();
             DeltaR = options[3].ToDouble();
             DistanceEpsilon = options[4].ToDouble();
-            OutputBondLabel = options[5].ToBool();
+            GroupBySite = options[5].ToBool();
+
+            m_distanceCalculator.Absorber = Absorber;
+            m_distanceCalculator.MinDistance = MinDistance;
+            m_distanceCalculator.MaxDistance = MaxDistance;
+            m_distanceCalculator.DistanceEpsilon = DistanceEpsilon;
+            m_distanceCalculator.GroupBySite = GroupBySite;
         }
 
         public Table Run(Table data)
@@ -47,87 +53,47 @@ namespace Kato.EvAX
                 rValues[i] = MinDistance + DeltaR * i;
             }
 
-            int absorberCount = 0;
-            var bondLabels = new List<string>();
-            var initialDistances = new List<double>();
-            var rdfValues = new List<double[]>();
-            for (int i = 0; i < finalRealPositions.Count; ++i)
+            m_distanceCalculator.CalculateDistances(initialAllPositions, finalLabels, finalRealPositions, finalAllPositions, out var bondLabels, out var initialDistances, out var distances);
+
+            var rdfValues = new double[bondLabels.Count][];
+            for(int i = 0; i < rdfValues.Length; ++i)
             {
-                if (finalLabels[i] != Absorber) continue;
-                
-                ++absorberCount;
+                rdfValues[i] = new double[rValues.Length];
 
-                for (int j = 0; j < finalAllPositions.Count; ++j)
+                foreach(var distance in distances[i])
                 {
-                    var initialDistance = Distance.Euclidean(initialAllPositions[i], initialAllPositions[j]);
-
-                    if (initialDistance < MinDistance) continue;
-                    if (initialDistance > MaxDistance) continue;
-
-                    var bondLabel = $"{finalLabels[i]}-{finalLabels[j]}";
-                    var labelIndex = GetLabelIndex(bondLabels, initialDistances, initialDistance, bondLabel);
-
-                    if (labelIndex < 0)
-                    {
-                        labelIndex = initialDistances.Count(x => x <= initialDistance);
-
-                        bondLabels.Insert(labelIndex, bondLabel);
-                        rdfValues.Insert(labelIndex, new double[binCount]);
-                        initialDistances.Insert(labelIndex, initialDistance);
-                    }
-
-                    var distance = Distance.Euclidean(finalAllPositions[i], finalAllPositions[j]);
-                    if (distance < MinDistance) continue;
                     if (distance > MaxDistance) continue;
 
                     var binIndex = GetBinIndex(distance);
-                    rdfValues[labelIndex][binIndex] += 1.0 / DeltaR;
+                    rdfValues[i][binIndex] += 1.0 / DeltaR;
                 }
             }
 
-            for(int i = 0; i < rdfValues.Count; ++i)
+            int absorberCount = 0;
+            for (int i = 0; i < finalRealPositions.Count; ++i)
             {
-                for(int j = 0; j < rdfValues[i].Length; ++j)
+                if (finalLabels[i] == Absorber)
+                {
+                    ++absorberCount;
+                }
+            }
+
+            for (int i = 0; i < rdfValues.Length; ++i)
+            {
+                for (int j = 0; j < rdfValues[i].Length; ++j)
                 {
                     rdfValues[i][j] /= absorberCount;
                 }
             }
 
             var columns = new List<IEnumerable<Value>>();
-
-            if (OutputBondLabel)
-            {
-                columns.Add(rValues.ToValueArray().Prepend(new Value("#r")));
-            }
-            else
-            {
-                columns.Add(rValues.ToValueArray());
-            }
-
+            columns.Add(rValues.ToValueArray().Prepend(new Value("#r")));
             for(int i = 0; i < bondLabels.Count; ++i)
             {
-                IEnumerable<Value> column = rdfValues[i].ToValueArray();
-
-                if (OutputBondLabel)
-                {
-                    column = column.Prepend(new Value(bondLabels[i]));
-                }
-
-                columns.Add(column);
+                columns.Add(rdfValues[i].ToValueArray().Prepend(new Value(bondLabels[i])));
             }
 
             return Table.CreateFromColumns(columns);
-        }
-
-        private int GetLabelIndex(List<string> labels, List<double> initialDistances, double initialDistance, string label)
-        {
-            for (int i = 0; i < labels.Count; ++i)
-            {
-                if (labels[i] != label) continue;
-                if (Math.Abs(initialDistances[i] - initialDistance) > DistanceEpsilon) continue;
-                return i;
-            }
-            return -1;
         }
 
         private int GetBinIndex(double r)
