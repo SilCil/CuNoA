@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using CustomizableAnalysisLibrary;
+using CustomizableAnalysisLibrary.Nodes;
 
 namespace Kato.EvAX
 {
@@ -15,6 +16,7 @@ namespace Kato.EvAX
         public bool GroupBySite { get; set; } = true;
 
         private XYZToDistance m_distanceCalculator = new XYZToDistance();
+        private MakeHistogram m_histogramCalculator = new MakeHistogram();
 
         public IEnumerable<(string label, Value)> GetOptions()
         {
@@ -35,39 +37,30 @@ namespace Kato.EvAX
             DistanceEpsilon = options[4].ToDouble();
             GroupBySite = options[5].ToBool();
 
+            ApplyOptions();
+        }
+
+        private void ApplyOptions()
+        {
             m_distanceCalculator.Absorber = Absorber;
             m_distanceCalculator.MinDistance = MinDistance;
             m_distanceCalculator.MaxDistance = MaxDistance;
             m_distanceCalculator.DistanceEpsilon = DistanceEpsilon;
             m_distanceCalculator.GroupBySite = GroupBySite;
+
+            m_histogramCalculator.MinValue = MinDistance;
+            m_histogramCalculator.MaxValue = MaxDistance;
+            m_histogramCalculator.Delta = DeltaR;
         }
 
         public Table Run(Table data)
         {
+            ApplyOptions();
+
             XYZReader.GetAtomicConfigurations(data, out var initialLabels, out var initialRealPositions, out var initialAllPositions, out var finalLabels, out var finalRealPositions, out var finalAllPositions);
 
-            int binCount = GetBinIndex(MaxDistance) + 1;
-            var rValues = new double[binCount];
-            for(int i = 0; i < rValues.Length; ++i)
-            {
-                rValues[i] = MinDistance + DeltaR * i;
-            }
-
             m_distanceCalculator.CalculateDistances(initialAllPositions, finalLabels, finalRealPositions, finalAllPositions, out var bondLabels, out var initialDistances, out var distances);
-
-            var rdfValues = new double[bondLabels.Count][];
-            for(int i = 0; i < rdfValues.Length; ++i)
-            {
-                rdfValues[i] = new double[rValues.Length];
-
-                foreach(var distance in distances[i])
-                {
-                    if (distance > MaxDistance) continue;
-
-                    var binIndex = GetBinIndex(distance);
-                    rdfValues[i][binIndex] += 1.0 / DeltaR;
-                }
-            }
+            m_histogramCalculator.CalculateXValues(out var rValues);
 
             int absorberCount = 0;
             for (int i = 0; i < finalRealPositions.Count; ++i)
@@ -78,10 +71,14 @@ namespace Kato.EvAX
                 }
             }
 
-            for (int i = 0; i < rdfValues.Length; ++i)
+            var rdfValues = new double[bondLabels.Count][];
+            for(int i = 0; i < rdfValues.Length; ++i)
             {
-                for (int j = 0; j < rdfValues[i].Length; ++j)
+                m_histogramCalculator.CalculateBinValues(distances[i], out rdfValues[i]);
+
+                for(int j = 0; j < rdfValues[i].Length; ++j)
                 {
+                    rdfValues[i][j] /= DeltaR;
                     rdfValues[i][j] /= absorberCount;
                 }
             }
@@ -94,11 +91,6 @@ namespace Kato.EvAX
             }
 
             return Table.CreateFromColumns(columns);
-        }
-
-        private int GetBinIndex(double r)
-        {
-            return (int)((r - MinDistance) / DeltaR + 0.5);
         }
     }
 }

@@ -45,10 +45,28 @@ namespace Kato.EvAX
         public Table Run(Table data)
         {
             XYZReader.GetAtomicConfigurations(data, out var initialLabels, out var initialRealPositions, out var initialAllPositions, out var finalLabels, out var finalRealPositions, out var finalAllPositions);
+            
+            CalculateAngles(initialRealPositions, initialAllPositions, finalLabels, finalAllPositions, out var initialDistances, out var initialAngles, out var angles);
 
-            var initialDistances = new List<double>();
-            var initialAngles = new List<double>();
-            var angles = new List<List<double>>();
+            var rows = new List<Value[]>();
+            for (int i = 0; i < initialDistances.Count; ++i)
+            {
+                rows.Add(new Value[]
+                {
+                    new Value(initialAngles[i]),
+                    new Value(angles[i].Average()),
+                    new Value(angles[i].StandardDeviation()),
+                    new Value(initialDistances[i]),
+                });
+            }
+            return Table.CreateFromRows(rows);
+        }
+
+        public void CalculateAngles(List<Vector<double>> initialRealPositions, List<Vector<double>> initialAllPositions, List<string> finalLabels, List<Vector<double>> finalAllPositions, out List<double> initialDistances, out List<double> initialAngles, out List<List<double>> angles)
+        {
+            initialDistances = new List<double>();
+            initialAngles = new List<double>();
+            angles = new List<List<double>>();
 
             // Atom1 (Real) -> Atom2 (All) -> Atom3 (All)で全探索するとめっちゃ時間かかる.
             // ループカウント: RealCount*AllCount*AllCount = 3^6*RealCount^3
@@ -66,7 +84,7 @@ namespace Kato.EvAX
                 // MaxDistanceが現実的な値なら要素数は100以下になるはず.
                 // その場合、ループ全体として 3^3*RealCount^2 + RealCount*100*100.
                 targetAtoms.Clear();
-                for(int i = 0; i < initialAllPositions.Count; ++i)
+                for (int i = 0; i < initialAllPositions.Count; ++i)
                 {
                     if (i == j) continue;
                     if (finalLabels[i] != Atoms[0] && finalLabels[i] != Atoms[2]) continue;
@@ -110,19 +128,6 @@ namespace Kato.EvAX
                     }
                 }
             }
-
-            var rows = new List<Value[]>();
-            for (int i = 0; i < initialDistances.Count; ++i)
-            {
-                rows.Add(new Value[]
-                {
-                    new Value(initialAngles[i]),
-                    new Value(angles[i].Average()),
-                    new Value(angles[i].StandardDeviation()),
-                    new Value(initialDistances[i]),
-                });
-            }
-            return Table.CreateFromRows(rows);
         }
 
         private int GetIndex(List<double> initialDistances, double initialDistance, List<double> initialAngles, double initialAngle)
