@@ -104,6 +104,9 @@ namespace Kato.EvAX
                         if (i == k) continue;
                         if (finalLabels[k] != Atoms[2]) continue;
 
+                        // Atom1とAtom3が同じ場合にダブルカウントしないようにする.
+                        if (Atoms[0] == Atoms[2] && k < i) continue;
+
                         var initialDistance31 = Distance.Euclidean(initialAllPositions[i], initialAllPositions[k]);
                         var initialDistance = (initialDistance12 + initialDistance23 + initialDistance31) / 2.0;
 
