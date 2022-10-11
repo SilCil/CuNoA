@@ -2,7 +2,7 @@
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/ヒストグラム")]
+    [Node("集計/列/ヒストグラム")]
     public class MakeHistogram : IOptionNode, ICalculationNode
     {
         public int Index { get; set; } = 0;
