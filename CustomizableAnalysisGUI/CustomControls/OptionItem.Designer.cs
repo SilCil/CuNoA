@@ -45,8 +45,8 @@ namespace CustomizableAnalysisGUI
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tableLayoutPanel1.Controls.Add(this.numericUpDownDouble, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.labelInt, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.labelDouble, 0, 1);
@@ -69,7 +69,7 @@ namespace CustomizableAnalysisGUI
             // 
             this.numericUpDownDouble.DecimalPlaces = 3;
             this.numericUpDownDouble.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownDouble.Location = new System.Drawing.Point(153, 41);
+            this.numericUpDownDouble.Location = new System.Drawing.Point(93, 41);
             this.numericUpDownDouble.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -81,7 +81,7 @@ namespace CustomizableAnalysisGUI
             0,
             -2147483648});
             this.numericUpDownDouble.Name = "numericUpDownDouble";
-            this.numericUpDownDouble.Size = new System.Drawing.Size(144, 32);
+            this.numericUpDownDouble.Size = new System.Drawing.Size(204, 32);
             this.numericUpDownDouble.TabIndex = 6;
             this.numericUpDownDouble.TabStop = false;
             this.numericUpDownDouble.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -98,7 +98,7 @@ namespace CustomizableAnalysisGUI
             this.labelInt.Location = new System.Drawing.Point(0, 0);
             this.labelInt.Margin = new System.Windows.Forms.Padding(0);
             this.labelInt.Name = "labelInt";
-            this.labelInt.Size = new System.Drawing.Size(150, 38);
+            this.labelInt.Size = new System.Drawing.Size(90, 38);
             this.labelInt.TabIndex = 0;
             this.labelInt.Text = "Int Value";
             this.labelInt.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -112,7 +112,7 @@ namespace CustomizableAnalysisGUI
             this.labelDouble.Location = new System.Drawing.Point(0, 38);
             this.labelDouble.Margin = new System.Windows.Forms.Padding(0);
             this.labelDouble.Name = "labelDouble";
-            this.labelDouble.Size = new System.Drawing.Size(150, 38);
+            this.labelDouble.Size = new System.Drawing.Size(90, 38);
             this.labelDouble.TabIndex = 1;
             this.labelDouble.Text = "Double Value";
             this.labelDouble.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -126,7 +126,7 @@ namespace CustomizableAnalysisGUI
             this.labelString.Location = new System.Drawing.Point(0, 76);
             this.labelString.Margin = new System.Windows.Forms.Padding(0);
             this.labelString.Name = "labelString";
-            this.labelString.Size = new System.Drawing.Size(150, 38);
+            this.labelString.Size = new System.Drawing.Size(90, 38);
             this.labelString.TabIndex = 2;
             this.labelString.Text = "String Value";
             this.labelString.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -151,10 +151,10 @@ namespace CustomizableAnalysisGUI
             this.textBoxString.AcceptsReturn = true;
             this.textBoxString.AcceptsTab = true;
             this.textBoxString.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxString.Location = new System.Drawing.Point(153, 79);
+            this.textBoxString.Location = new System.Drawing.Point(93, 79);
             this.textBoxString.Multiline = true;
             this.textBoxString.Name = "textBoxString";
-            this.textBoxString.Size = new System.Drawing.Size(144, 32);
+            this.textBoxString.Size = new System.Drawing.Size(204, 32);
             this.textBoxString.TabIndex = 7;
             this.textBoxString.TabStop = false;
             this.textBoxString.WordWrap = false;
@@ -164,7 +164,7 @@ namespace CustomizableAnalysisGUI
             // numericUpDownInt
             // 
             this.numericUpDownInt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownInt.Location = new System.Drawing.Point(153, 3);
+            this.numericUpDownInt.Location = new System.Drawing.Point(93, 3);
             this.numericUpDownInt.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -176,7 +176,7 @@ namespace CustomizableAnalysisGUI
             0,
             -2147483648});
             this.numericUpDownInt.Name = "numericUpDownInt";
-            this.numericUpDownInt.Size = new System.Drawing.Size(144, 32);
+            this.numericUpDownInt.Size = new System.Drawing.Size(204, 32);
             this.numericUpDownInt.TabIndex = 8;
             this.numericUpDownInt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numericUpDownInt.ThousandsSeparator = true;
