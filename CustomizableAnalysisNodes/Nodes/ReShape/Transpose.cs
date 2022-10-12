@@ -2,7 +2,7 @@
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("変換/行と列を入替")]
+    [Node("変形/行と列を入替")]
     public class Transpose : ICalculationNode
     {
         public Table Run(Table data)

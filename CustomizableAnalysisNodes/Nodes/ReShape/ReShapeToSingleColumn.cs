@@ -2,7 +2,7 @@
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("変換/1列に")]
+    [Node("変形/1列に")]
     public class ReShapeToSingleColumn : ICalculationNode
     {
         public Table Run(Table data)
