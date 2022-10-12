@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
@@ -10,34 +9,33 @@ namespace CustomizableAnalysisLibrary.Nodes
     {
         private const StringSplitOptions stringSplitOptions = StringSplitOptions.RemoveEmptyEntries;
 
-        private char[] separators = new char[] { ' ', '\t', ',' };
-        private string commentSymbol = "#";
+        public char[] Separators { get; set; } = new char[] { ' ', '\t', ',' };
+        public string CommentSymbol { get; set; } = "#";
 
         public InputType InputType => InputType.File;
 
         public IEnumerable<(string label, Value)> GetOptions()
         {
-            yield return ("区切り文字", new Value(new string(separators)));
-            yield return ("コメント文字", new Value(commentSymbol));
+            yield return ("区切り文字", new Value(new string(Separators)));
+            yield return ("コメント文字", new Value(CommentSymbol));
         }
 
         public void SetOptions(params Value[] options)
         {
-            separators = options[0].ToString().ToCharArray();
-            commentSymbol = options[1].ToString();
+            Separators = options[0].ToString().ToCharArray();
+            CommentSymbol = options[1].ToString();
         }
 
         public Table Load(string path)
         {
-            var fileName = Path.GetFileNameWithoutExtension(path);
-            var rows = new List<IEnumerable<Value>>();
+            var rows = new List<Value[]>();
 
             var lines = File.ReadAllLines(path);
             foreach (var line in lines)
             {
                 if (IsSkipLine(line)) continue;
-                var words = line.Split(separators, stringSplitOptions);
-                var values = words.Select(x => new Value(x));
+                var words = line.Split(Separators, stringSplitOptions);
+                var values = words.ToValueArray();
                 rows.Add(values);
             }
 
@@ -47,7 +45,7 @@ namespace CustomizableAnalysisLibrary.Nodes
         private bool IsSkipLine(string line)
         {
             if (string.IsNullOrWhiteSpace(line)) return true;
-            if (line.Trim().StartsWith(commentSymbol)) return true;
+            if (line.Trim().StartsWith(CommentSymbol)) return true;
             return false;
         }
     }

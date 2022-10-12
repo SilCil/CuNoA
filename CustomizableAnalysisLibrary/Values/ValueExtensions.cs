@@ -20,12 +20,22 @@ namespace CustomizableAnalysisLibrary
             return values.Select(x => x.ToString()).ToArray();
         }
 
+        public static Value[] ToValueArray(this IEnumerable<int> values)
+        {
+            return values.Select(x => new Value(x)).ToArray();
+        }
+
         public static Value[] ToValueArray(this IEnumerable<double> values)
         {
             return values.Select(x => new Value(x)).ToArray();
         }
 
         public static Value[] ToValueArray(this IEnumerable<string> values)
+        {
+            return values.Select(x => new Value(x)).ToArray();
+        }
+
+        public static Value[] ToValueArray(this IEnumerable<bool> values)
         {
             return values.Select(x => new Value(x)).ToArray();
         }
