@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/n列置き/合計")]
+    [Node("集計/n列おき/合計")]
     public class SumEveryN : ICalculationNode, IOptionNode
     {
         public int N { get; set; } = 1;

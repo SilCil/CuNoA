@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/n列置き/標準偏差")]
+    [Node("集計/n列おき/標準偏差")]
     public class StandardDeviationEveryN : ICalculationNode, IOptionNode
     {
         public int N { get; set; } = 1;

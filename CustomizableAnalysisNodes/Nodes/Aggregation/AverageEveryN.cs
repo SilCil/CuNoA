@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/n列置き/平均")]
+    [Node("集計/n列おき/平均")]
     public class AverageEveryN : ICalculationNode, IOptionNode
     {
         public int N { get; set; } = 1;
