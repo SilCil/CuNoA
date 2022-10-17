@@ -2,8 +2,8 @@
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("抽出/列/最初の数列")]
-    public class ExtractColumnUntil : IOptionNode, ICalculationNode
+    [Node("抽出/列/最後の数列")]
+    public class ExtractColumnBackUntil : IOptionNode, ICalculationNode
     {
         public int Count { get; set; } = 1;
 
@@ -21,14 +21,17 @@ namespace CustomizableAnalysisLibrary.Nodes
         {
             var columns = new List<IReadOnlyList<Value>>();
             
-            for(int i = 0; i < data.ColumnCount; ++i)
+            for(int i = data.ColumnCount - 1; i >= 0; --i)
             {
-                if (i < Count)
+                if (columns.Count >= Count)
                 {
-                    columns.Add(data.GetColumn(i));
+                    break;
                 }
+
+                columns.Add(data.GetColumn(i));
             }
 
+            columns.Reverse();
             return Table.CreateFromColumns(columns);
         }
     }

@@ -2,8 +2,8 @@
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("抽出/行/最初の数行")]
-    public class ExtractRowUntil : IOptionNode, ICalculationNode
+    [Node("抽出/行/最後の数行")]
+    public class ExtractRowBackUntil : IOptionNode, ICalculationNode
     {
         public int Count { get; set; } = 1;
 
@@ -21,14 +21,17 @@ namespace CustomizableAnalysisLibrary.Nodes
         {
             var rows = new List<IReadOnlyList<Value>>();
             
-            for(int i = 0; i < data.RowCount; ++i)
+            for(int i = data.RowCount - 1; i >= 0; --i)
             {
-                if (i < Count)
+                if (rows.Count >= Count)
                 {
-                    rows.Add(data.GetRow(i));
+                    break;
                 }
+
+                rows.Add(data.GetRow(i));
             }
 
+            rows.Reverse();
             return Table.CreateFromRows(rows);
         }
     }
