@@ -19,14 +19,14 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            IndexX = options[0].ToIntValue().IntValue;
-            IndexY = options[1].ToIntValue().IntValue;
+            IndexX = options[0].ToInt();
+            IndexY = options[1].ToInt();
         }
 
         public Table Run(Table data)
         {
-            var dataX = data.GetColumn(IndexX).Select(x => x.ToDoubleValue().DoubleValue).ToArray();
-            var dataY = data.GetColumn(IndexY).Select(x => x.ToDoubleValue().DoubleValue).ToArray();
+            var dataX = data.GetColumn(IndexX).ToDoubleArray();
+            var dataY = data.GetColumn(IndexY).ToDoubleArray();
 
             var originalDataX = new double[dataX.Length];
             Array.Copy(dataX, originalDataX, dataX.Length);
@@ -39,7 +39,7 @@ namespace CustomizableAnalysisLibrary.Nodes
             for(int i = 0; i < data.RowCount; ++i)
             {
                 var row = data.GetRow(i).ToArray();
-                row[IndexY] = new Value(interpolation.Differentiate(row[IndexX].ToDoubleValue().DoubleValue));
+                row[IndexY] = new Value(interpolation.Differentiate(row[IndexX].ToDouble()));
                 rows.Add(row);
             }
 

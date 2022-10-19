@@ -44,7 +44,7 @@ namespace CustomizableAnalysisLibrary
                     columns.Add(result.GetColumn(i));
                 }
             }
-            var table = Table.CreateFromRows(columns);
+            var table = Table.CreateFromColumns(columns);
             return table;
         }
     }

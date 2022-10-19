@@ -17,13 +17,13 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            Index = options[0].ToIntValue().IntValue;
-            PointCount = (options[1].ToIntValue().IntValue / 2) * 2 + 1;
+            Index = options[0].ToInt();
+            PointCount = (options[1].ToInt() / 2) * 2 + 1;
         }
 
         public Table Run(Table data)
         {
-            var values = data.GetColumn(Index).Select(x => x.ToDoubleValue().DoubleValue).ToArray();
+            var values = data.GetColumn(Index).ToDoubleArray();
             var smoothed = new double[values.Length];
 
             var n = PointCount / 2;

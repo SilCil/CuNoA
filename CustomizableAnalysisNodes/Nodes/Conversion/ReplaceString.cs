@@ -22,10 +22,10 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            Index = options[0].ToIntValue().IntValue;
-            OldString = options[1].ToStringValue().StringValue;
-            NewString = options[2].ToStringValue().StringValue;
-            UseRegularExpressions = options[3].ToBoolValue().BoolValue;
+            Index = options[0].ToInt();
+            OldString = options[1].ToString();
+            NewString = options[2].ToString();
+            UseRegularExpressions = options[3].ToBool();
         }
 
         public Table Run(Table data)
@@ -42,7 +42,7 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         private Value Replace(in Value value)
         {
-            var str = value.ToStringValue().StringValue;
+            var str = value.ToString();
             if (UseRegularExpressions)
             {
                 return new Value(Regex.Replace(str, OldString, NewString));

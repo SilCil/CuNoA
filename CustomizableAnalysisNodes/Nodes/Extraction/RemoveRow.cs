@@ -1,21 +1,22 @@
-﻿using System.Linq;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("抽出/列/番号を指定")]
-    public class ExtractColumn : IOptionNode, ICalculationNode
+    [Node("抽出/行/番号を指定して削除")]
+    public class RemoveRow : IOptionNode, ICalculationNode
     {
-        public int[] Indices { get; set; } = new int[] { 0, 1 };
+        public int[] Indices { get; set; } = new int[] { 0 };
 
         public IEnumerable<(string label, Value)> GetOptions()
         {
             var count = new Value(Indices is null ? 0 : Indices.Length);
-            yield return ("取り出す列の数", count);
+            yield return ("削除する行の数", count);
 
             for (int i = 0; i < count.IntValue; ++i)
             {
-                yield return ($"列番号{i}", new Value(Indices[i]));
+                yield return ($"行番号{i}", new Value(Indices[i]));
             }
         }
 
@@ -44,17 +45,17 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public Table Run(Table data)
         {
-            var columns = new List<IReadOnlyList<Value>>();
+            var rows = new List<IReadOnlyList<Value>>();
 
-            for(int i = 0; i < data.ColumnCount; ++i)
+            for(int i = 0; i < data.RowCount; ++i)
             {
-                if (Indices.Contains(i))
+                if (Indices.Contains(i) == false)
                 {
-                    columns.Add(data.GetColumn(i));
+                    rows.Add(data.GetRow(i));
                 }
             }
 
-            return Table.CreateFromColumns(columns);
+            return Table.CreateFromRows(rows);
         }
     }
 }

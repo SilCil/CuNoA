@@ -133,8 +133,8 @@ public static class Code
 
         public Table Run(Table data)
         {
-            var dataX = Vector<double>.Build.DenseOfEnumerable(data.GetColumn(IndexX).Select(x => x.ToDoubleValue().DoubleValue));
-            var dataY = Vector<double>.Build.DenseOfEnumerable(data.GetColumn(IndexY).Select(y => y.ToDoubleValue().DoubleValue));
+            var dataX = Vector<double>.Build.DenseOfArray(data.GetColumn(IndexX).ToDoubleArray());
+            var dataY = Vector<double>.Build.DenseOfArray(data.GetColumn(IndexY).ToDoubleArray());
             var model = ObjectiveFunction.NonlinearModel(EvaluateFunc, dataX, dataY);
 
             var initialParameters = CreateVector.DenseOfArray(Parameters);

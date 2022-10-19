@@ -14,21 +14,26 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            Index = options[0].ToIntValue().IntValue;
+            Index = options[0].ToInt();
         }
 
         public Table Run(Table data)
         {
             IReadOnlyList<Value> minRow = default;
             double minValue = double.MaxValue;
+
             for(int i = 0; i < data.RowCount; ++i)
             {
                 var row = data.GetRow(i);
-                var value = row[Index].ToDoubleValue().DoubleValue;
-                if (value >= minValue) continue;
-                minValue = value;
-                minRow = row;
+                var value = row[Index].ToDouble();
+
+                if (value < minValue)
+                {
+                    minValue = value;
+                    minRow = row;
+                }
             }
+            
             return Table.CreateFromRows(minRow);
         }
     }

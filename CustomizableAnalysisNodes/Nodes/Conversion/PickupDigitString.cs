@@ -15,7 +15,7 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            Index = options[0].ToIntValue().IntValue;
+            Index = options[0].ToInt();
         }
 
         public Table Run(Table data)
@@ -32,7 +32,7 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         private static Value PickupDigit(in Value value)
         {
-            var str = value.ToStringValue().StringValue;
+            var str = value.ToString();
             var picked = new string(str.Where(c => char.IsDigit(c)).ToArray());
             return new Value(picked);
         }

@@ -23,8 +23,8 @@ namespace Kato.EvAX
 
         public void SetOptions(params Value[] options)
         {
-            InitialFile = options[0].ToStringValue().StringValue;
-            FinalFile = options[1].ToStringValue().StringValue;
+            InitialFile = options[0].ToString();
+            FinalFile = options[1].ToString();
         }
 
         public Table Load(string path)
@@ -64,7 +64,7 @@ namespace Kato.EvAX
             for(int i = 0; i < allCount; ++i)
             {
                 var words = lines[i + 2].Split();
-                var values = words.Take(4).Select(x => new Value(x)).ToArray(); // Label, x, y, z.
+                var values = words.Take(4).ToValueArray(); // Label, x, y, z.
                 
                 if (i < realCount) realAtoms.Add(values);
                 allAtoms.Add(values);
@@ -98,24 +98,24 @@ namespace Kato.EvAX
             {
                 var row = data.GetRow(i);
 
-                var initialLabel = row[0].ToStringValue().StringValue;
+                var initialLabel = row[0].ToString();
                 if (string.IsNullOrWhiteSpace(initialLabel))
                 {
                     isRealAtom = false;
                     continue;
                 }
 
-                var finalLabel = row[1].ToStringValue().StringValue;
+                var finalLabel = row[1].ToString();
                 var initialPos = Vector<double>.Build.Dense(3);
                 var finalPos = Vector<double>.Build.DenseOfVector(initialPos);
 
-                initialPos[0] = row[2].ToDoubleValue().DoubleValue;
-                initialPos[1] = row[3].ToDoubleValue().DoubleValue;
-                initialPos[2] = row[4].ToDoubleValue().DoubleValue;
+                initialPos[0] = row[2].ToDouble();
+                initialPos[1] = row[3].ToDouble();
+                initialPos[2] = row[4].ToDouble();
 
-                finalPos[0] = row[5].ToDoubleValue().DoubleValue;
-                finalPos[1] = row[6].ToDoubleValue().DoubleValue;
-                finalPos[2] = row[7].ToDoubleValue().DoubleValue;
+                finalPos[0] = row[5].ToDouble();
+                finalPos[1] = row[6].ToDouble();
+                finalPos[2] = row[7].ToDouble();
 
                 initialLabels.Add(initialLabel);
                 initialAllPositions.Add(initialPos);

@@ -16,17 +16,20 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            Index = options[0].ToIntValue().IntValue;
-            Search = options[1].ToStringValue().StringValue;
+            Index = options[0].ToInt();
+            Search = options[1].ToString();
         }
 
         public Table Run(Table data)
         {
             var rows = new List<IEnumerable<Value>>();
+
             for(int i = 0; i < data.RowCount; ++i)
             {
                 var row = data.GetRow(i);
-                if (row[Index].ToStringValue().StringValue.Contains(Search))
+                var word = row[Index].ToString();
+
+                if (word.Contains(Search))
                 {
                     rows.Add(row);
                 }

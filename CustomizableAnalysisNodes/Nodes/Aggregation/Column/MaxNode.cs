@@ -3,8 +3,8 @@ using System.Linq;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/最小")]
-    public class MinNode : ICalculationNode, IOptionNode
+    [Node("集計/列/最大")]
+    public class MaxNode : ICalculationNode, IOptionNode
     {
         public int Index { get; set; } = 0;
 
@@ -15,13 +15,13 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            Index = options[0].ToIntValue().IntValue;
+            Index = options[0].ToInt();
         }
 
         public Table Run(Table data)
         {
-            var min = data.GetColumn(Index).Min(x => x.ToDoubleValue().DoubleValue);
-            return Table.CreateFromSingleElement(new Value(min));
+            var max = data.GetColumn(Index).ToDoubleArray().Max();
+            return Table.CreateFromSingleElement(new Value(max));
         }
     }
 }

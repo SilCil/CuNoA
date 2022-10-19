@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/合計")]
-    public class SumNode : ICalculationNode, IOptionNode
+    [Node("集計/列/データ数")]
+    public class CountNode : ICalculationNode, IOptionNode
     {
         public int Index { get; set; } = 0;
 
@@ -15,13 +14,13 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            Index = options[0].ToIntValue().IntValue;
+            Index = options[0].ToInt();
         }
 
         public Table Run(Table data)
         {
-            var sum = data.GetColumn(Index).Sum(x => x.ToDoubleValue().DoubleValue);
-            return Table.CreateFromSingleElement(new Value(sum));
+            var count = data.GetColumn(Index).Count;
+            return Table.CreateFromSingleElement(new Value(count));
         }
     }
 }

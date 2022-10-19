@@ -1,17 +1,18 @@
-﻿using System.Linq;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("抽出/列/番号を指定")]
-    public class ExtractColumn : IOptionNode, ICalculationNode
+    [Node("抽出/列/番号を指定して削除")]
+    public class RemoveColumn : IOptionNode, ICalculationNode
     {
-        public int[] Indices { get; set; } = new int[] { 0, 1 };
+        public int[] Indices { get; set; } = new int[] { 0 };
 
         public IEnumerable<(string label, Value)> GetOptions()
         {
             var count = new Value(Indices is null ? 0 : Indices.Length);
-            yield return ("取り出す列の数", count);
+            yield return ("削除する列の数", count);
 
             for (int i = 0; i < count.IntValue; ++i)
             {
@@ -48,7 +49,7 @@ namespace CustomizableAnalysisLibrary.Nodes
 
             for(int i = 0; i < data.ColumnCount; ++i)
             {
-                if (Indices.Contains(i))
+                if (Indices.Contains(i) == false)
                 {
                     columns.Add(data.GetColumn(i));
                 }

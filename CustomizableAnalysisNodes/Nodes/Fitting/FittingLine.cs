@@ -25,15 +25,15 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            IndexX = options[0].ToIntValue().IntValue;
-            IndexY = options[1].ToIntValue().IntValue;
-            OutputCurve = options[2].ToBoolValue().BoolValue;
+            IndexX = options[0].ToInt();
+            IndexY = options[1].ToInt();
+            OutputCurve = options[2].ToBool();
         }
 
         public Table Run(Table data)
         {
-            var dataX = data.GetColumn(IndexX).Select(x => x.ToDoubleValue().DoubleValue).ToArray();
-            var dataY = data.GetColumn(IndexY).Select(y => y.ToDoubleValue().DoubleValue).ToArray();
+            var dataX = data.GetColumn(IndexX).ToDoubleArray();
+            var dataY = data.GetColumn(IndexY).ToDoubleArray();
             (Intercept, Slope) = Fit.Line(dataX, dataY);
 
             if(OutputCurve)

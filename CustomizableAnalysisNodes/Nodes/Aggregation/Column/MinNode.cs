@@ -3,8 +3,8 @@ using System.Linq;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/平均")]
-    public class AverageNode : ICalculationNode, IOptionNode
+    [Node("集計/列/最小")]
+    public class MinNode : ICalculationNode, IOptionNode
     {
         public int Index { get; set; } = 0;
 
@@ -15,13 +15,13 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            Index = options[0].ToIntValue().IntValue;
+            Index = options[0].ToInt();
         }
 
         public Table Run(Table data)
         {
-            var average = data.GetColumn(Index).Average(x => x.ToDoubleValue().DoubleValue);
-            return Table.CreateFromSingleElement(new Value(average));
+            var min = data.GetColumn(Index).ToDoubleArray().Min();
+            return Table.CreateFromSingleElement(new Value(min));
         }
     }
 }

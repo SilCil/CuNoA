@@ -24,10 +24,10 @@ namespace Kato.EvAX
 
         public void SetOptions(params Value[] options)
         {
-            Absorber = options[0].ToStringValue().StringValue;
-            MinDistance = options[1].ToDoubleValue().DoubleValue;
-            MaxDistance = options[2].ToDoubleValue().DoubleValue;
-            DistanceEpsilon = options[3].ToDoubleValue().DoubleValue;
+            Absorber = options[0].ToString();
+            MinDistance = options[1].ToDouble();
+            MaxDistance = options[2].ToDouble();
+            DistanceEpsilon = options[3].ToDouble();
         }
 
         public Table Run(Table data)
@@ -57,20 +57,21 @@ namespace Kato.EvAX
                     var distance = Distance.Euclidean(ri, rj);
 
                     var index = GetIndex(bondLabels, initialDistances, initialDistance, bondLabel);
-                    if (index >= 0)
+
+                    if (index < 0)
                     {
-                        distances[index].Add(distance);
-                        continue;
+                        index = initialDistances.Count(x => x <= initialDistance);
+                        
+                        bondLabels.Insert(index, bondLabel);
+                        initialDistances.Insert(index, initialDistance);
+                        distances.Insert(index, new List<double>());
                     }
 
-                    index = initialDistances.Count(x => x <= initialDistance);
-                    bondLabels.Insert(index, bondLabel);
-                    initialDistances.Insert(index, initialDistance);
-                    distances.Insert(index, new List<double>() { distance });
+                    distances[index].Add(distance);
                 }
             }
 
-            var rows = new List<IEnumerable<Value>>();
+            var rows = new List<Value[]>();
             for (int i = 0; i < bondLabels.Count; ++i)
             {
                 rows.Add(new Value[]

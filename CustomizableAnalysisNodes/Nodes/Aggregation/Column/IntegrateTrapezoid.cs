@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CustomizableAnalysisLibrary.Nodes
 {
-    [Node("集計/積分（台形積分）")]
+    [Node("集計/列/積分（台形積分）")]
     public class IntegrateTrapezoid : ICalculationNode, IOptionNode
     {
         public int IndexX { get; set; } = 0;
@@ -18,15 +18,15 @@ namespace CustomizableAnalysisLibrary.Nodes
 
         public void SetOptions(params Value[] options)
         {
-            IndexX = options[0].ToIntValue().IntValue;
-            IndexY = options[1].ToIntValue().IntValue;
+            IndexX = options[0].ToInt();
+            IndexY = options[1].ToInt();
         }
 
         public Table Run(Table data)
         {
-            var dataX = data.GetColumn(IndexX).Select(x => x.ToDoubleValue().DoubleValue).ToArray();
-            var dataY = data.GetColumn(IndexY).Select(x => x.ToDoubleValue().DoubleValue).ToArray();
-
+            var dataX = data.GetColumn(IndexX).ToDoubleArray();
+            var dataY = data.GetColumn(IndexY).ToDoubleArray();
+            
             var originalDataX = new double[dataX.Length];
             Array.Copy(dataX, originalDataX, dataX.Length);
             Array.Sort(originalDataX, dataX);

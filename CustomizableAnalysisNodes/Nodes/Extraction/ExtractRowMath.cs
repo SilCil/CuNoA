@@ -26,14 +26,14 @@ public static class Code
 
         public void SetOptions(params Value[] options)
         {
-            IndexX = options[0].ToIntValue().IntValue;
-            Code = options[1].ToStringValue().StringValue;
+            IndexX = options[0].ToInt();
+            Code = options[1].ToString();
         }
 
         public Table Run(Table data)
         {
             var source = CodeTemplate.Replace("$Code", Code);
-            var assembly = Utility.LoadFromSource(key: $"{nameof(CustomizableAnalysisLibrary.Nodes)}:{nameof(ExtractRowMath)}:{Code}", source);
+            var assembly = Utility.LoadFromSource(key: $"{nameof(Nodes)}:{nameof(ExtractRowMath)}:{Code}", source);
             var codeType = assembly.GetType("Code");
             var evaluateInfo = codeType.GetMethod("Evaluate");
             var evaluate = (Func<double, bool>)Delegate.CreateDelegate(typeof(Func<double, bool>), evaluateInfo);
@@ -42,12 +42,13 @@ public static class Code
             for (int i = 0; i < data.RowCount; ++i)
             {
                 var row = data.GetRow(i);
-                var x = row[IndexX].ToDoubleValue().DoubleValue;
+                var x = row[IndexX].ToDouble();
                 if (evaluate.Invoke(x))
                 {
                     rows.Add(row);
                 }
             }
+
             return Table.CreateFromRows(rows);
         }
     }

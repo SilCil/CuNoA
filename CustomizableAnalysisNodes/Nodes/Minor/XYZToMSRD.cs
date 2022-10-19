@@ -13,21 +13,24 @@ namespace Kato.EvAX
         public double MinDistance { get; set; } = 0.1;
         public double MaxDistance { get; set; } = 4.2;
         public double DistanceEpsilon { get; set; } = 0.001;
+        public bool GroupBySite { get; set; } = true;
 
         public IEnumerable<(string label, Value)> GetOptions()
         {
             yield return ("吸収原子", new Value(Absorber));
             yield return ("最小距離", new Value(MinDistance));
             yield return ("最大距離", new Value(MaxDistance));
-            yield return ("距離の誤差", new Value(DistanceEpsilon));
+            yield return ("Group閾値", new Value(DistanceEpsilon));
+            yield return ("Siteを区別する", new Value(GroupBySite));
         }
 
         public void SetOptions(params Value[] options)
         {
-            Absorber = options[0].ToStringValue().StringValue;
-            MinDistance = options[1].ToDoubleValue().DoubleValue;
-            MaxDistance = options[2].ToDoubleValue().DoubleValue;
-            DistanceEpsilon = options[3].ToDoubleValue().DoubleValue;
+            Absorber = options[0].ToString();
+            MinDistance = options[1].ToDouble();
+            MaxDistance = options[2].ToDouble();
+            DistanceEpsilon = options[3].ToDouble();
+            GroupBySite = options[4].ToBool();
         }
 
         public Table Run(Table data)
@@ -63,7 +66,7 @@ namespace Kato.EvAX
                     var r0_j = initialAllPositions[j] + averageDisplacementsFromInitial[label_j];
                     var u_j = finalAllPositions[j] - r0_j;
 
-                    var bondLabel = $"{label_i}-{label_j}";
+                    var bondLabel = GetBondLabel(label_i, label_j);
 
                     var r0 = r0_j - r0_i;
                     var r0_direction = r0 / r0.L2Norm();
@@ -79,6 +82,7 @@ namespace Kato.EvAX
                     if (index < 0)
                     {
                         insertIndex = initialDistances.Count(x => x <= initialDistance);
+
                         bondLabels.Insert(insertIndex, bondLabel);
                         initialDistances.Insert(insertIndex, initialDistance);
                     }
@@ -90,7 +94,7 @@ namespace Kato.EvAX
                 }
             }
 
-            var rows = new List<IEnumerable<Value>>();
+            var rows = new List<Value[]>();
             for (int i = 0; i < bondLabels.Count; ++i)
             {
                 rows.Add(new Value[]
@@ -103,6 +107,23 @@ namespace Kato.EvAX
                 });
             }
             return Table.CreateFromRows(rows);
+        }
+
+        private string GetBondLabel(string label1, string label2)
+        {
+            if (GroupBySite)
+            {
+                return string.Join("-", label1, label2);
+            }
+            else
+            {
+                return string.Join("-", RemoveNumber(label1), RemoveNumber(label2));
+            }
+        }
+
+        private string RemoveNumber(string str)
+        {
+            return new string(str.Where(x => char.IsDigit(x) == false).ToArray());
         }
 
         private int GetIndex(List<string> labels, List<double> initialDistances, double initialDistance, string label)

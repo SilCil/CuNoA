@@ -18,20 +18,26 @@ namespace CustomizableAnalysisLibrary.Nodes
         
         public void SetOptions(params Value[] options)
         {
-            Index = options[0].ToIntValue().IntValue;
-            MinValue = options[1].ToDoubleValue().DoubleValue;
-            MaxValue = options[2].ToDoubleValue().DoubleValue;
+            Index = options[0].ToInt(); 
+            MinValue = options[1].ToDouble();
+            MaxValue = options[2].ToDouble();
         }
 
         public Table Run(Table data)
         {
             var rows = new List<IReadOnlyList<Value>>();
+
             for(int i = 0; i < data.RowCount; ++i)
             {
                 var row = data.GetRow(i);
-                var value = row[Index].ToDoubleValue().DoubleValue;
-                if (MinValue <= value && value <= MaxValue) rows.Add(row);
+                var value = row[Index].ToDouble();
+
+                if (MinValue <= value && value <= MaxValue)
+                {
+                    rows.Add(row);
+                }
             }
+
             return Table.CreateFromRows(rows);
         }
     }
