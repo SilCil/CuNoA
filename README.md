@@ -4,7 +4,10 @@
 
 ---
 
-Windowsインストーラーを[ダウンロード](https://github.com/SilCil/CuNoA/releases/download/ver0.0.1/CuNoAInstaller.zip)
+|バージョン|Windowsインストーラー|Note|
+|----|----|----|
+|0.0.2|[ダウンロード](https://github.com/SilCil/CuNoA/releases/download/ver0.0.2/CuNoAInstaller.zip)|EvAXの角度解析追加|
+|0.0.1|[ダウンロード](https://github.com/SilCil/CuNoA/releases/download/ver0.0.1/CuNoAInstaller.zip)|ゼミ旅行プレゼンに使用|
 
 ---
 
@@ -95,5 +98,6 @@ GUIアプリケーション作るってなった時に、WPFとか最もモダ�
 
 #### ログ
 
+- 2022.10.19 ver0.0.2をリリース
 - 2022.09.21 ver0.0.1をリリース（ゼミ旅行プレゼンでのデモ）
 - 2022.07.05 作成開始 
