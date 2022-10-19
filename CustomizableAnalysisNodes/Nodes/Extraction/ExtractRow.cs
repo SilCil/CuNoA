@@ -53,7 +53,7 @@ namespace CustomizableAnalysisLibrary.Nodes
                     rows.Add(data.GetRow(i));
                 }
             }
-            
+
             return Table.CreateFromRows(rows);
         }
     }

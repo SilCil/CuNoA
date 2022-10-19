@@ -45,7 +45,7 @@ namespace CustomizableAnalysisLibrary.Nodes
         public Table Run(Table data)
         {
             var columns = new List<IReadOnlyList<Value>>();
-            
+
             for(int i = 0; i < data.ColumnCount; ++i)
             {
                 if (Indices.Contains(i))

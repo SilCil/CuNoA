@@ -27,6 +27,8 @@ public static class Code
         public int ParameterCount { get; set; } = 1;
         public double[] Parameters { get; set; } = { 1.0 };
 
+        public double[] ResultingParameters { get; set; } = default;
+
         public string FunctionCode { get; set; } = "Math.Exp(-a[0]*x)";
         public int MaximumIterations { get; set; } = -1;
 
@@ -106,7 +108,7 @@ public static class Code
             var solver = new LevenbergMarquardtMinimizer(maximumIterations: MaximumIterations);
 
             var result = solver.FindMinimum(model, initialParameters);
-            Parameters = result.MinimizingPoint.ToArray();
+            ResultingParameters = result.MinimizingPoint.ToArray();
             
             if (OutputCurve)
             {
@@ -115,7 +117,7 @@ public static class Code
             }
             else
             {
-                return Table.CreateFromRows(Parameters.Select(x => new Value(x)));
+                return Table.CreateFromRows(ResultingParameters.Select(x => new Value(x)));
             }
         }
     }
