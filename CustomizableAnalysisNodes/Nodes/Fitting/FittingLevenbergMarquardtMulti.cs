@@ -63,18 +63,18 @@ public static class Code
 
         public void SetOptions(params Value[] options)
         {
-            IndexX = options[0].ToIntValue().IntValue;
-            IndexY = options[1].ToIntValue().IntValue;
-            OutputCurve = options[2].ToBoolValue().BoolValue;
-            MaximumIterations = options[3].ToIntValue().IntValue;
-            ParameterCount = Math.Max(0, options[4].ToIntValue().IntValue);
-            FunctionCount = Math.Max(0, options[5].ToIntValue().IntValue);
+            IndexX = options[0].ToInt();
+            IndexY = options[1].ToInt();
+            OutputCurve = options[2].ToBool();
+            MaximumIterations = options[3].ToInt();
+            ParameterCount = Math.Max(0, options[4].ToInt());
+            FunctionCount = Math.Max(0, options[5].ToInt());
 
             Parameters = new double[ParameterCount];
             for (int i = 0; i < Parameters.Length; ++i)
             {
                 var option = options[i + 6];
-                var value = option.ToDoubleValue().DoubleValue;
+                var value = option.ToDouble();
                 if (double.IsNaN(value))
                 {
                     Parameters[i] = 1.0;
@@ -97,7 +97,7 @@ public static class Code
                 }
                 else
                 {
-                    FunctionCodes[codeIndex] = options[optionIndex].ToStringValue().StringValue;
+                    FunctionCodes[codeIndex] = options[optionIndex].ToString();
                 }
             }
         }
