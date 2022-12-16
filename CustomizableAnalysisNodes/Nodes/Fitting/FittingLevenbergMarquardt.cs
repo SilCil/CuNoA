@@ -13,6 +13,7 @@ namespace CustomizableAnalysisLibrary.Nodes
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
+using CustomizableAnalysisLibrary;
 
 public static class Code
 {

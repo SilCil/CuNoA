@@ -44,6 +44,8 @@ namespace CustomizableAnalysisLibrary.Nodes
                 MetadataReference.CreateFromFile($"{assemblyDirectoryPath}/netstandard.dll"),
                 MetadataReference.CreateFromFile($"{assemblyDirectoryPath}/System.Runtime.dll"),
                 MetadataReference.CreateFromFile(typeof(MathNet.Numerics.LinearAlgebra.Vector<>).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(ICalculationNode).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(ExtractColumn).Assembly.Location),
             };
             var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
             var compilation = CSharpCompilation.Create(assemblyName, syntaxTrees, references, compilationOptions);

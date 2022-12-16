@@ -13,6 +13,7 @@ namespace CustomizableAnalysisLibrary.Nodes
         private const string CodeTemplate = @"
 using System;
 using System.Collections.Generic;
+using CustomizableAnalysisLibrary;
 
 public static class Code
 {

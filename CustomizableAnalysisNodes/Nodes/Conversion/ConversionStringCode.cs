@@ -9,6 +9,7 @@ namespace CustomizableAnalysisLibrary.Nodes
     {
         private const string CodeTemplate = @"
 using System;
+using CustomizableAnalysisLibrary;
 
 public static class Code
 {
