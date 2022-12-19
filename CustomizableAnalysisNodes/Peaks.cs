@@ -24,7 +24,7 @@ namespace CustomizableAnalysisLibrary
             return Math.Atan(x / gamma) / Math.PI + 0.5;
         }
 
-        public static double PesudoVoigt(double x, double gauss_fwhm, double lorentz_fwhm, double gauss_ratio)
+        public static double PseudoVoigt(double x, double gauss_fwhm, double lorentz_fwhm, double gauss_ratio)
         {
             var eta = (gauss_ratio < 0.0) ? 0.0 : (gauss_ratio > 1.0) ? 1.0 : gauss_ratio;
             return eta * Gauss(x, gauss_fwhm) + (1.0 - eta) * Lorentz(x, lorentz_fwhm);
