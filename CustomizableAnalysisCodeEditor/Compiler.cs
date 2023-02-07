@@ -28,6 +28,7 @@ namespace CustomizableAnalysisLibrary.CodeEditor
             typeof(object).Assembly,
             typeof(Enum).Assembly,
             typeof(Enumerable).Assembly,
+            typeof(List<>).Assembly,
             typeof(File).Assembly,
             typeof(ICalculationNode).Assembly,
             typeof(ExtractColumn).Assembly,
@@ -49,6 +50,7 @@ namespace CustomizableAnalysisLibrary.CodeEditor
             {
                 MetadataReference.CreateFromFile($"{assemblyDirectoryPath}/mscorlib.dll"),
                 MetadataReference.CreateFromFile($"{assemblyDirectoryPath}/netstandard.dll"),
+                MetadataReference.CreateFromFile($"{assemblyDirectoryPath}/System.Collections.dll"),
                 MetadataReference.CreateFromFile($"{assemblyDirectoryPath}/System.Runtime.dll"),
             });
 
